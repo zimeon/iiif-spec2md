@@ -6,9 +6,9 @@ import textwrap
 import xml.etree.ElementTree as ET
 
 spec_src = "../ocfl-spec/draft/spec/index.html"
-spec_dst = "source/spec.md"
+spec_dst = "docs/spec.md"
 impl_src = "../ocfl-spec/draft/implementation-notes/index.html"
-impl_dst = "source/impl.md"
+impl_dst = "docs/impl.md"
 text_width = 72
 
 
@@ -30,6 +30,11 @@ class Markdown_Writer(object):
         text = " ".join(args)
         text = re.sub(r'''\s+''', ' ', text)
         self.ofh.write(textwrap.fill(text.strip(), width=text_width, break_long_words=False) + "\n")
+
+    def long_line(self, *args):
+        """Write a line without wrapping."""
+        text = " ".join(args)
+        self.ofh.write(text.strip() + "\n")
 
     def para(self, *args):
         """Write a paragraph or block of Markdown, line with blank line following."""
@@ -159,8 +164,9 @@ class Converter(object):
                             div_text += "--- | "
                             row_text += self.process_para_inner(cell) + " | "
                         if row_num == 2:
-                            self.writer.line("| --- | --- |")
-                        self.writer.line(row_text)
+                            self.writer.long_line("| --- | --- |")
+                        self.writer.long_line(row_text)
+                self.writer.line("")
             elif child.tag == "blockquote":
                 # We expect just paragraps inside blockquote
                 for p in child:

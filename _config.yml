@@ -1,0 +1,6 @@
+source: docs
+theme: minima
+
+plugins:
+  - jekyll-data
+  - jekyll-liquify
