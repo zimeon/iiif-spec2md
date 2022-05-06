@@ -149,11 +149,17 @@ class Converter(object):
                     else:
                         Bwaa("Unexpected tag in dl: " * item.tag)
             elif child.tag == "table":
+                row_num = 0
                 for head_and_body in child:
                     for row in head_and_body:
+                        row_num += 1
+                        div_text = "| "
                         row_text = "| "
                         for cell in row:
+                            div_text += "--- | "
                             row_text += self.process_para_inner(cell) + " | "
+                        if row_num == 2:
+                            self.writer.line("| --- | --- |")
                         self.writer.line(row_text)
             elif child.tag == "blockquote":
                 # We expect just paragraps inside blockquote

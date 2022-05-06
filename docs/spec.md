@@ -391,6 +391,7 @@ extensions. Optional fixity algorithms that are not supported by a
 client <span id=E028>MUST</span> be ignored by that client.
 
 | Digest Algorithm Name | Note |
+| --- | --- |
 | `md5` | Insecure. Use only for legacy fixity values. MD5 algorithm and
 hex encoding defined by [[!RFC1321]]. For example, the `md5` digest of a
 zero-length bitstream is `d41d8cd98f00b204e9800998ecf8427e`. |
