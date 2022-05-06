@@ -27,13 +27,12 @@ class Markdown_Writer(object):
 
     def line(self, *args):
         """Write a line."""
-        text = " ".join(args)
-        text = re.sub(r'''\s+''', ' ', text)
+        text = re.sub(r'''\s+''', ' ', " ".join(args))
         self.ofh.write(textwrap.fill(text.strip(), width=text_width, break_long_words=False) + "\n")
 
     def long_line(self, *args):
         """Write a line without wrapping."""
-        text = " ".join(args)
+        text = re.sub(r'''\s+''', ' ', " ".join(args))
         self.ofh.write(text.strip() + "\n")
 
     def para(self, *args):
