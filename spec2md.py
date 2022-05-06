@@ -18,6 +18,16 @@ class Bwaa(Exception):
     pass
 
 
+def ref_anchor(label):
+    """Make reference anchor from label."""
+    return 'ref-' + re.sub(r'''[\s_]+''', '-', label.lower())
+
+def ref_link(matchobj):
+    """Make reference markdown link from label."""
+    anchor = ref_anchor(matchobj.group(2))
+    return "[" + matchobj.group(2) + "](#" + anchor + ")"
+
+
 class Markdown_Writer(object):
     """Write markdown output."""
 
@@ -25,14 +35,20 @@ class Markdown_Writer(object):
         """Initialize and set output filehandle."""
         self.ofh = ofh
 
+    def munge_and_link(self, *args):
+        """Sort out spaces and also link refs."""
+        text = re.sub(r'''\s+''', ' ', " ".join(args))
+        text = re.sub(r'''\[\[(\!)(\S+)\]\]''', ref_link, text)
+        return text
+
     def line(self, *args):
         """Write a line."""
-        text = re.sub(r'''\s+''', ' ', " ".join(args))
+        text = self.munge_and_link(*args)
         self.ofh.write(textwrap.fill(text.strip(), width=text_width, break_long_words=False) + "\n")
 
     def long_line(self, *args):
         """Write a line without wrapping."""
-        text = re.sub(r'''\s+''', ' ', " ".join(args))
+        text = self.munge_and_link(*args)
         self.ofh.write(text.strip() + "\n")
 
     def para(self, *args):
@@ -77,7 +93,7 @@ class Converter(object):
             elif child.tag == 'span':
                 # We only use <span. for id= anchors for errors and warnings,
                 # we just replicate this in output
-                txt += "<span id=" + child.attrib['id'] + ">" + text + "</span>"
+                txt += '<span id="' + child.attrib['id'] + '">' + text + "</span>"
             elif child.tag == 'i':
                 txt += "_" + text + "_"
             elif child.tag == 'pre':
