@@ -4,7 +4,7 @@ Unofficial Draft 05 May 2022
 
 Latest editor's draft: <https://ocfl.io/draft/spec/>
 
-**Editors**:
+**Editors:**
 
 * [Neil Jefferies](https://orcid.org/0000-0003-3311-3741), [Bodleian Libraries, University of Oxford](http://www.bodleian.ox.ac.uk/)
 * [Rosalyn Metz](https://orcid.org/0000-0003-3526-2230), [Emory University](https://web.library.emory.edu/)
@@ -31,7 +31,9 @@ This document is licensed under a [Creative Commons Attribution 4.0
 License](https://creativecommons.org/licenses/by/4.0/). [OCFL logo:
 "hand-drive"](https://avatars0.githubusercontent.com/u/35607965) by
 [Patrick Hochstenbach](http://orcid.org/0000-0001-8390-6171) is
-licensed under [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/).## Introduction
+licensed under [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/).
+
+## Introduction
 {. #abstract}
 
 This Oxford Common File Layout (OCFL) specification describes an
@@ -149,7 +151,58 @@ interpreted as described in [RFC2119].
 ## Terminology
 {. #terminology}
 
-DL LIST
+* **Content Path:** The file path of a file on disk or in an object
+store, relative to the [OCFL Object Root](#OCFL Object Root). Content
+paths are used in the [Manifest](#Manifest) within an
+[Inventory](#Inventory).
+
+* **Digest:** An algorithmic characterization of the contents of a file
+conforming to a standard digest algorithm.
+
+* **Extension:** Extensions are used to collaborate, review, and publish
+additional non-normative functions related to OCFL. Extensions are
+intended to be informational and cite-able, but outside the scope of the
+normal specification process. Registered extensions may be found in the
+[OCFL Extensions repository.](https://ocfl.github.io/extensions/)
+
+* **Inventory:** A file, expressed in JSON, that tracks the history and
+current state of an OCFL Object.
+
+* **Logical Path:** A path that represents a file's location in the
+[logical state](#logical state) of an object. Logical paths are used in
+conjunction with a digest to represent the file name and path for a
+given bitstream at a given version.
+
+* **Logical State:** A grouping of logical paths tied to their
+corresponding bitstreams that reflect the state of the object content
+for a given version.
+
+* **Logs Directory:** A directory for storing information about the
+content (e.g., actions performed) that is not part of the content
+itself.
+
+* **Manifest:** A section of the [Inventory](#Inventory) listing all
+files and their digests within an OCFL Object.
+
+* **OCFL Object:** A group of one or more content files and
+administrative information, that together have a unique identifier. The
+object may contain a sequence of versions of the files that represent
+the evolution of the object's contents.
+
+* **OCFL Object Root:** The base directory of an [OCFL Object](#OCFL
+Object), identified by a [[NAMASTE]] file "0=ocfl_object_1.1".
+
+* **OCFL Storage Root:** A base directory used to store OCFL Objects,
+identified by a [[NAMASTE]] file "0=ocfl_1.1".
+
+* **OCFL Version:** The state of an [OCFL Object](#OCFL Object)'s
+content which is constructed using the incremental changes recorded in
+the sequence of corresponding and prior version directories.
+
+* **Registered Extension Name:** The registered name of an extension is
+the name provided in the _Extension Name_ property of the extension's
+definition in the [OCFL Extensions
+repository](https://ocfl.github.io/extensions/).
 
 ## OCFL Object
 {. #object-spec}
@@ -382,11 +435,35 @@ Inventory files is provided at
 Every OCFL inventory <span id=E036>MUST</span> include the following
 keys:
 
-DL LIST
+* **id:** A unique identifier for the OCFL Object. This <span
+id=E037>MUST</span> be unique in the local context, <span id=E110>MUST
+NOT</span> change between versions of the same object, and <span
+id=W005>SHOULD</span> be a URI [[!RFC3986]]. There is no expectation
+that a URI used is resolvable. For example, URNs [[RFC8141]] MAY be
+used.
+
+* **type:** A type for the inventory JSON object that also serves to
+document the OCFL specification version that the inventory complies
+with. In the object root inventory this <span id=E038>MUST</span> be the
+URI of the inventory section of the specification version matching the
+object conformance declaration. For the current specification version
+the value is `https://ocfl.io/1.1/spec/#inventory`.
+
+* **digestAlgorithm:** The digest algorithm used for calculating digests
+for content-addressing within the OCFL Object and for the [Inventory
+Digest](#inventory-digest). This <span id=E039>MUST</span> be the
+algorithm used in the `manifest` and `state` blocks, see the [section on
+Digests](#digests) for more information about algorithms.
+
+* **head:** The version directory name of the most recent version of the
+object. This <span id=E040>MUST</span> be the version directory name
+with the highest version number.
 
 There MAY be the following key:
 
-DL LIST
+* **contentDirectory:** The name of the designated content directory
+within the version directories. If not specified then the content
+directory name is `content`.
 
 In addition to these keys, there <span id=E041>MUST</span> be two other
 blocks present, `manifest` and `versions`, which are discussed in the
@@ -432,9 +509,8 @@ entirely de-duplicated when constructing the OCFL Object.
 > An example manifest object for three content paths, all in version 1,
 is shown below:
 
-```
-> 
-  "manifest": {
+> ```
+"manifest": {
     "7dcc35...c31": [ "v1/content/foo/bar.xml" ],
     "cf83e1...a3e": [ "v1/content/empty.txt" ],
     "ffccf6...62e": [ "v1/content/image.tiff" ]
@@ -459,12 +535,84 @@ object that characterizes the version, as described in the
 A JSON object to describe one [OCFL Version](#OCFL Version), which <span
 id=E048>MUST</span> include the following keys:
 
-DL LIST
+* **created:** The value of this key is the datetime of creation of this
+version. It <span id=E049>MUST</span> be expressed in the Internet
+Date/Time Format defined by [[!RFC3339]]. This format requires the
+inclusion of a timezone value or `Z` for UTC, and that the time
+component be granular to the second level (with optional fractional
+seconds).
+
+* **state:** The value of this key is a JSON object, containing a list
+of keys and values corresponding to the [logical state](#logical state)
+of the object at that version. The keys of this JSON object are digest
+values, each of which <span id=E050>MUST</span> exactly match a digest
+value key in the [manifest of the inventory](#manifest). The value for
+each key is an array containing [logical path](#logical path) names of
+files in the OCFL Object's logical state that have content with the
+given digest.
+
+[Logical paths](#logical-path) present the structure of an OCFL Object
+at a given version. This is given as an array of values, with the
+following restrictions to provide for path safety in the common case of
+the logical path value representing a file path.
+
+* The logical path <span id=E051>MUST</span> be interpreted as a set of
+one or more path elements joined by a `/` path separator.
+
+* Path elements <span id=E052>MUST NOT</span> be `.`, `..`, or empty
+(`//`).
+
+* A logical path <span id=E053>MUST NOT</span> begin or end with a
+forward slash (`/`).
+
+* Within a version, logical paths <span id=E095>MUST</span> be unique
+and non-conflicting, so the logical path for a file cannot appear as the
+initial part of another logical path.
+
+> Non-normative note: The [logical state](#logical state) of the object
+uses content-addressing to map logical paths to their bitstreams, as
+expressed in the manifest section of the inventory. Notably, the version
+state provides de-duplication of content within the OCFL Object by
+mapping multiple logical paths with the same content to the same digest
+in the manifest. See [[OCFL-Implementation-Notes]].
+
+> An example `state` block is shown below:
+
+> ```
+"state": {
+    "4d27c8...b53": [ "foo/bar.xml" ],
+    "cf83e1...a3e": [ "empty.txt", "empty2.txt" ]
+  }
+```
+
+> This `state` block describes an object with 3 files, two of which have
+the same content (`empty.txt` and `empty2.txt`), and one of which is in
+a sub-directory (`bar.xml`). The [logical state](#logical state) shown
+as a tree is thus:
+
+> ```
+├── empty.txt
+    ├── empty2.txt
+    └── foo
+        └── bar.xml
+```
 
 The JSON object describing an [OCFL Version](#OCFL Version), <span
 id=W007>SHOULD</span> include the following keys:
 
-DL LIST
+* **message:** The value of this key is freeform text, used to record
+the rationale for creating this version. It <span id=E094>MUST</span> be
+a JSON string.
+
+* **user:** The value of this key is a JSON object intended to identify
+the user or agent that created the current [OCFL Version](#OCFL
+Version). The value of the `user` key <span id=E054>MUST</span> contain
+a user name key, `name` and <span id=W008>SHOULD</span> contain an
+address key, `address`. The `name` value is any readable name of the
+user, e.g., a proper name, user ID, agent ID. The `address` value <span
+id=W009>SHOULD</span> be a URI: either a mailto URI [[RFC6068]] with the
+e-mail address of the user or a URL to a personal identifier, e.g., an
+ORCID iD.
 
 #### Fixity
 {. #fixity}
@@ -498,9 +646,8 @@ version are carried forward to later versions.
 this case the `md5` digest values are provided only for version 1
 content paths.
 
-```
-> 
-  "fixity": {
+> ```
+"fixity": {
     "md5": {
       "184f84e28cbe75e050e9c25ea7f2e939": [ "v1/content/foo/bar.xml" ],
       "c289c8ccd4bab6e385f5afdd89b5bda2": [ "v1/content/image.tiff" ],

@@ -186,9 +186,8 @@ In the interests of transparency it makes sense for an object's URI, its
 unique identifier and its location under the OCFL Storage Root to be
 aligned and simply derivable from each other. Good examples include:
 
-```
-* 
-            [storage_root]
+  * ```
+[storage_root]
                 ├── 0=ocfl_1.1
                 ├── ocfl_1.1.html (optional copy of the OCFL specification)
                 ├── d45be626e024
@@ -218,9 +217,8 @@ contain more than a few thousand files so this arrangement is best
 suited to repositories with a small number of objects (or many OCFL
 Storage Roots).
 
-```
-* 
-            [storage_root]
+  * ```
+[storage_root]
                 ├── 0=ocfl_1.1
                 ├── ocfl_1.1.html (optional copy of the OCFL specification)
                 ├── d4
@@ -259,9 +257,8 @@ directories which will be sparsely populated unless the number of
 objects is very large. Traversing all these directories during
 validation or rebuilding operations can be slow.
 
-```
-* 
-            [storage_root]
+  * ```
+[storage_root]
                 ├── 0=ocfl_1.1
                 ├── ocfl_1.1.html (optional copy of the OCFL specification)
                 ├── d45

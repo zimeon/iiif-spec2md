@@ -36,9 +36,9 @@ class Markdown_Writer(object):
         self.line(*args)
         self.ofh.write("\n")
 
-    def example(self, text):
+    def example(self, text, prefix=''):
         """Write a preformatted example in Markdown."""
-        self.ofh.write("```\n" + text.strip() + "\n```\n\n")
+        self.ofh.write(prefix + "```\n" + text.strip() + "\n```\n\n")
 
 
 class Converter(object):
@@ -88,7 +88,7 @@ class Converter(object):
 
     def process_pre(self, element, prefix=''):
         """Process a pre example block."""
-        self.writer.example(prefix + element.text)
+        self.writer.example(element.text, prefix=prefix)
         tail = element.tail.strip()
         if tail not in (None, ""):
             raise Bwaa("Unexpected tail text ", tail)
@@ -134,7 +134,15 @@ class Converter(object):
                     self.process_para(item, prefix="  %d. " % n)
                     n += 1
             elif child.tag == 'dl':
-                self.writer.para('DL LIST')
+                dt = "MISSING"
+                for item in child:
+                    if item.tag == 'dt':
+                        for dfn in item:
+                            dt = dfn.text.strip()
+                    elif item.tag == 'dd':
+                        self.process_para(item, prefix="  * **" + dt + ":** ")
+                    else:
+                        Bwaa("Unexpected tag in dl: " * item.tag)
             elif child.tag == "table":
                 self.writer.para('TABLE')
             elif child.tag == "blockquote":

@@ -7,4 +7,4 @@ Take OCFL specification and implementation notes documents and transform from XM
 ## Outputs
 
 * [Spec](https://zimeon.github.io/ocfl-spec2md/spec) from [current draft](https://ocfl.io/draft/spec/)
-* [Implementation Notes](https://zimeon.github.io/ocfl-spec2md/impl) from current draft](https://ocfl.io/draft/implementation-notes/)
+* [Implementation Notes](https://zimeon.github.io/ocfl-spec2md/impl) from [current draft](https://ocfl.io/draft/implementation-notes/)
