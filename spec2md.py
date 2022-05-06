@@ -150,7 +150,7 @@ class Converter(object):
             else:
                 raise Bwaa("level%d unknown child: ", level, child.tag, child.attrib)
 
-    def convert(self, src, dst, pre_amble=None):
+    def convert(self, src, dst, preamble=None):
         """Convert src ReSpec HTML to dst in Markdown."""
         # Read XML
         print("Reading %s" % (src))
@@ -163,6 +163,8 @@ class Converter(object):
         # Have parsed XML in root, now open dst for output and
         # then convert the chunks of the file by <section>
         with open(dst, 'w', encoding='utf-8') as ofh:
+            if preamble:
+                ofh.write(pathlib.Path(preamble).read_text())
             self.writer = Markdown_Writer(ofh)
             body = root.find('body')
             for child in body:
@@ -175,7 +177,7 @@ class Converter(object):
 
 cnv = Converter()
 try:
-    cnv.convert(src=spec_src, dst=spec_dst)
+    cnv.convert(src=spec_src, dst=spec_dst, preamble="spec_preamble.md")
     cnv.convert(src=impl_src, dst=impl_dst)
 except Bwaa as e:
     print(e)
