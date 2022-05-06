@@ -390,8 +390,30 @@ the table below, and MAY support additional algorithms from the
 extensions. Optional fixity algorithms that are not supported by a
 client <span id=E028>MUST</span> be ignored by that client.
 
-TABLE
-
+| Digest Algorithm Name | Note |
+| `md5` | Insecure. Use only for legacy fixity values. MD5 algorithm and
+hex encoding defined by [[!RFC1321]]. For example, the `md5` digest of a
+zero-length bitstream is `d41d8cd98f00b204e9800998ecf8427e`. |
+| `sha1` | Insecure. Use only for legacy fixity values. SHA-1 algorithm
+defined by [[!FIPS-180-4]] and <span id=E029>MUST</span> be encoded
+using hex (base16) encoding [[!RFC4648]]. For example, the `sha1` digest
+of a zero-length bitstream is
+`da39a3ee5e6b4b0d3255bfef95601890afd80709`. |
+| `sha256` | Non-truncated form only; note performance implications.
+SHA-256 algorithm defined by [[!FIPS-180-4]] and <span
+id=E030>MUST</span> be encoded using hex (base16) encoding [[!RFC4648]].
+For example, the `sha256` digest of a zero-length bitstream starts
+`e3b0c44298fc1c149afbf4c8996fb92427ae41e4...` (64 hex digits long). |
+| `sha512` | Default choice. Non-truncated form only. SHA-512 algorithm
+defined by [[!FIPS-180-4]] and <span id=E031>MUST</span> be encoded
+using hex (base16) encoding [[!RFC4648]]. For example, the `sha512`
+digest of a zero-length bitstream starts
+`cf83e1357eefb8bdf1542850d66d8007d620e405...` (128 hex digits long). |
+| `blake2b-512` | Full-length form only, using the 2B variant (64 bit)
+as defined by [[!RFC7693]]. <span id=E032>MUST</span> be encoded using
+hex (base16) encoding [[!RFC4648]]. For example, the `blake2b-512`
+digest of a zero-length bitstream starts
+`786a02f742015903c6c6fd852552d272912f4740...` (128 hex digits long). |
 An OCFL Inventory MAY contain a fixity section that can store one or
 more blocks containing fixity values using multiple digest algorithms.
 See the [section on fixity](#fixity) below for further details.

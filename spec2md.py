@@ -53,9 +53,9 @@ class Converter(object):
         anchor = element.attrib.get('id', None)
         return anchor
 
-    def process_para(self, element, prefix=''):
-        """Process a paragraph."""
-        txt = prefix
+    def process_para_inner(self, element, prefix=''):
+        """Return string from paragraph like content."""
+        txt = ""
         if element.text is not None:
             txt += element.text
         for child in element:
@@ -79,11 +79,16 @@ class Converter(object):
             elif child.tag == 'pre':
                 self.process_pre(child, prefix)
             else:
-                raise Bwaa("Unrecognized element in para: " + child.tag)
-            if child.tail.strip() not in (None, ''):
+                raise Bwaa("Unrecognized element in para_inner: " + child.tag)
+            if child.tail is not None and child.tail.strip() not in (None, ''):
                 txt += child.tail
         if element.tail.strip() not in (None, ''):
             txt += element.tail
+        return txt
+
+    def process_para(self, element, prefix=''):
+        """Process a paragraph."""
+        txt = prefix + self.process_para_inner(element, prefix)
         self.writer.para(txt)
 
     def process_pre(self, element, prefix=''):
@@ -144,7 +149,12 @@ class Converter(object):
                     else:
                         Bwaa("Unexpected tag in dl: " * item.tag)
             elif child.tag == "table":
-                self.writer.para('TABLE')
+                for head_and_body in child:
+                    for row in head_and_body:
+                        row_text = "| "
+                        for cell in row:
+                            row_text += self.process_para_inner(cell) + " | "
+                        self.writer.line(row_text)
             elif child.tag == "blockquote":
                 # We expect just paragraps inside blockquote
                 for p in child:
