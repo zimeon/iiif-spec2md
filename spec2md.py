@@ -6,9 +6,9 @@ import textwrap
 import xml.etree.ElementTree as ET
 
 spec_src = "../ocfl-spec/draft/spec/index.html"
-spec_dst = "docs/spec.md"
+spec_dst = "source/spec.md"
 impl_src = "../ocfl-spec/draft/implementation-notes/index.html"
-impl_dst = "docs/impl.md"
+impl_dst = "source/impl.md"
 text_width = 72
 
 
@@ -105,7 +105,7 @@ class Converter(object):
             pass
         elif element.attrib['id'] == 'sotd':
             self.writer.line("## Status of This Document")
-            self.writer.para("{. #sotd}")
+            self.writer.para("{: #sotd}")
             self.writer.para("This document is draft of a potential specification. It has no official standing of any kind and does not represent the support or consensus of any standards organisation.")
             self.writer.para("INSERT_TOC_HERE")
             return
@@ -123,7 +123,7 @@ class Converter(object):
                 if anchor is None:
                     self.writer.line('')
                 else:
-                    self.writer.para("{. #%s}" % (anchor))
+                    self.writer.para("{: #%s}" % (anchor))
                 if child.tail.strip() not in (None, ""):
                     raise Bwaa("Unexpected tail text ", child.tail)
             elif child.tag == 'p':
@@ -187,6 +187,7 @@ class Converter(object):
         # Have parsed XML in root, now open dst for output and
         # then convert the chunks of the file by <section>
         with open(dst, 'w', encoding='utf-8') as ofh:
+            ofh.write("---\n---\n")  # Jekyll frontmatter
             if preamble:
                 ofh.write(pathlib.Path(preamble).read_text())
             self.writer = Markdown_Writer(ofh)
