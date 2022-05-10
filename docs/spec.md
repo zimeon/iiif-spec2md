@@ -141,7 +141,8 @@ any standards organisation.
 
 INSERT_TOC_HERE
 
-## Conformance
+## 1. Conformance
+{: #conformance}
 
 As well as sections marked as non-normative, all authoring guidelines,
 diagrams, examples, and notes in this specification are non-normative.

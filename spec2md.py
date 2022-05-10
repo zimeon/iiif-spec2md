@@ -160,7 +160,10 @@ class Converter(object):
             self.writer.para("INSERT_TOC_HERE")
             return
         elif element.attrib['id'] == 'conformance':
-            self.writer.para("## Conformance")
+            section_heading = section_number + "Conformance"
+            self.section['conformance'] = section_heading
+            self.writer.line("## " + section_heading)
+            self.writer.para("{: #conformance}")
             self.writer.para("As well as sections marked as non-normative, all authoring guidelines, diagrams, examples, and notes in this specification are non-normative. Everything else in this specification is normative.")
             self.writer.para("The key words may, must, must not, should, and should not are to be interpreted as described in [RFC2119].")
             return
