@@ -16,9 +16,11 @@ any standards organisation.
 
 INSERT_TOC_HERE
 
-## Digital Preservation
+## 1. Digital Preservation
+{: #digital-preservation}
 
-### Rebuildability
+### 1.1 Rebuildability
+{: #rebuildability}
 
 A key goal of the OCFL is the rebuildability of a repository from an
 OCFL storage root without additional information resources.
@@ -40,7 +42,7 @@ storage root. This documentation object would then be subject to OCFL
 validation and any other digital preservation processes that might be
 implemented without requiring special handling.
 
-### Fixity
+### 1.2 Fixity
 {: #fixity}
 
 The digests in the manifest are used by the OCFL for content
@@ -64,9 +66,11 @@ fixity block does not have to include all the files in an object to
 permit legacy fixity to be imported without requiring continued use of
 obsolete digest algorithms.
 
-## Storage
+## 2. Storage
+{: #storage}
 
-### Object Contents
+### 2.1 Object Contents
+{: #object-contents}
 
 The OCFL separates the content path of stored files from the logical
 path of these files' content in OCFL object versions. This is a key
@@ -99,7 +103,8 @@ through suitable state block entries rather than reconstructing a
 physical file layout. Of course, the OCFL supports ongoing use of such a
 methodology.
 
-#### Data and Metadata
+#### 2.1.1 Data and Metadata
+{: #data-and-metadata}
 
 OCFL object versions are composed of series of files/bitstreams but the
 OCFL does not make any distinction between different types of files
@@ -109,7 +114,8 @@ example, to create separate data and metadata directories within each
 version to help organize material but all files are treated equally for
 the purpose of OCFL validation and management.
 
-#### Deduplication
+#### 2.1.2 Deduplication
+{: #deduplication}
 
 The OCFL supports optional deduplication if a client ensures that all
 digests in the manifest block refer to a single file path on disk. This
@@ -125,7 +131,8 @@ object versions so subsequent references to duplicated content should
 also refer back to the original manifest entry rather than updating it
 to include additional references.
 
-#### Filesystem metadata
+#### 2.1.3 Filesystem metadata
+{: #filesystem-metadata}
 
 Filesystem metadata (e.g. permissions, access, and creation times) are
 not considered portable between filesystems or preservable through file
@@ -137,7 +144,8 @@ encapsulated in a filesystem image format that preserves this
 information, or the metadata extracted and stored explicitly in an
 additional file.
 
-#### Empty Directories
+#### 2.1.4 Empty Directories
+{: #empty-directories}
 
 The OCFL preserves files and their content, with directories serving as
 a useful organizational convention. An empty directory consists only of
@@ -151,7 +159,8 @@ Note that `.keep` files are not considered special by the OCFL in any
 way and are treated exactly the same way as other files. As such, a non-
 zero length `.keep` file is not considered invalid.
 
-#### Objects with Many Small Files
+#### 2.1.5 Objects with Many Small Files
+{: #objects-with-many-small-files}
 
 Objects that contain a large number of files can pose performance
 problems if they are stored in a filesystem as-is. Fixity checks, object
@@ -167,7 +176,8 @@ sensible to package the static files together in a single, larger file
 necessary but can significantly improve the efficiency of basic OCFL
 client and storage operations.
 
-### Storage Root Hierarchy
+### 2.2 Storage Root Hierarchy
+{: #storage-root-hierarchy}
 
 Strictly speaking, the OCFL only requires that an OCFL Storage Root
 contains OCFL Objects in directories, distributed in some manner in the
@@ -298,7 +308,8 @@ directional mapping which may be a useful aid to human readability.
 Relevant details should be referenced in `ocfl_layout.json` in the
 Storage Root.
 
-### Filesystem Features
+### 2.3 Filesystem Features
+{: #filesystem-features}
 
 In order to be portable across as many filesystems as possible, the OCFL
 makes use of a subset of filesystem features that are very broadly
@@ -318,9 +329,11 @@ are examples of such features which, while providing benefits in terms
 of storage efficiency, do require care when considering issues of
 capacity planning or migration.
 
-## Client Behaviors
+## 3. Client Behaviors
+{: #client-behaviors}
 
-### Basic File Operations
+### 3.1 Basic File Operations
+{: #basic-file-operations}
 
 The OCFL and its inventory structure are designed to support and capture
 the following file operations that create OCFL versions, regardless of
@@ -364,9 +377,11 @@ OCFL Object. This is a special case that is not supported as part of
 regular OCFL versioning operations. An approach to implementing this is
 covered in a later section.
 
-### Versioning
+### 3.2 Versioning
+{: #versioning}
 
-#### Version Numbering
+#### 3.2.1 Version Numbering
+{: #version-numbering}
 
 Version numbering should start with 1 and be positive sequential
 integers. Names start with a lower case `v`. The numbers may be zero
@@ -383,7 +398,7 @@ to show version order with common lexical sorting tools (such as Unix
 arbitrary choices of padding length or to place limits on the number of
 versions supported.
 
-#### Version Immutability
+#### 3.2.2 Version Immutability
 {: #version-immutability}
 
 Previous versions of an object should be considered immutable since the
@@ -397,7 +412,8 @@ never be deleted. New entries may be created, and, if not deduplicating
 file content, additional references to copies of stored content may be
 added.
 
-### File Purging
+### 3.3 File Purging
+{: #file-purging}
 
 Sometimes a file needs to be deleted from all versions of an object,
 perhaps for legal reasons. Doing this to an OCFL Object breaks the
@@ -418,7 +434,7 @@ object was created, if appropriate. The OCFL does not define redirect
 mechanisms, the interpretation of object contents is purely a client
 application concern.
 
-### Migrating to a New Digest Algorithm
+### 3.4 Migrating to a New Digest Algorithm
 {: #digest-migration}
 
 Over time new digest algorithms are developed to increase security and
@@ -549,7 +565,8 @@ and the corresponding `v2` inventory is:
 }
 ```
 
-### Log Information
+### 3.5 Log Information
+{: #log-information}
 
 There may be the need to record some actions on objects that do not
 result in changes to the object content. For example, copying the object
@@ -559,7 +576,8 @@ recorded. The OCFL does not make any assumptions about the contents of
 this directory but, if it exists, then its contents will not be subject
 any validation processes.
 
-### Forward Delta
+### 3.6 Forward Delta
+{: #forward-delta}
 
 Forward delta differencing is a key, though optional, feature of the
 OCFL that means that parts of an OCFL object version that are unchanged
@@ -619,7 +637,8 @@ entries with the same path inherited from the previous version. If the
 file paths are unchanged then these entries will be identical to the
 corresponding entries in the earlier version's `state` block.
 
-### An Example Approach to Updating OCFL Object Versions
+### 3.7 An Example Approach to Updating OCFL Object Versions
+{: #an-example-approach-to-updating-ocfl-object-versions}
 
 The OCFL is designed to be a specification that covers objects at rest
 and consequently does not specify in detail update and file locking
@@ -633,7 +652,8 @@ Creating a new OCFL Object only differs from updating in that it
 involves creating a version directory before version update logic takes
 over.
 
-#### Segregating Objects-in-flight
+#### 3.7.1 Segregating Objects-in-flight
+{: #segregating-objects-in-flight}
 
 While an OCFL Object is being created or updated, the files and folders
 being written should be assembled in a location that is ignored by OCFL
@@ -689,13 +709,15 @@ temporary inventory files always occur in OCFL Object Roots and are
 named `tmp_inventory.json`, for argument's sake. The presence of this
 file is not valid OCFL and indicative of an update failure.
 
-#### Operational Logic
+#### 3.7.2 Operational Logic
+{: #operational-logic}
 
 Bearing in mind the definitions specified above, it is possible to
 sketch out how they can be used to ensure some level of integrity during
 OCFL updates.
 
-##### Initiating a New Object Version
+##### 3.7.2.1 Initiating a New Object Version
+{: #initiating-a-new-object-version}
 
 1. Generate a new transaction ID
 
@@ -710,7 +732,8 @@ this case, using it as the version assembly directory name.
 4. Copy inventory from object into version assembly directory as a
 starting point for the new version
 
-##### Updating a New Object Version
+##### 3.7.2.2 Updating a New Object Version
+{: #updating-a-new-object-version}
 
 1. Get current transaction ID
 
@@ -720,7 +743,8 @@ invalid for some reason, need to debug!
 
 3. Update object as described earlier.
 
-##### Finalizing a New Object Version
+##### 3.7.2.3 Finalizing a New Object Version
+{: #finalizing-a-new-object-version}
 
 1. Get current transaction ID
 
@@ -754,7 +778,8 @@ one from the new version.
 9. Clean up the Workspace to remove stale Object and version assembly
 directories
 
-##### Clean up after failure
+##### 3.7.2.4 Clean up after failure
+{: #clean-up-after-failure}
 
 1. Delete version assembly directories and temporary inventory files -
 this automatically reverts objects to last known good version. Assembly

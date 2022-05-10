@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Hack to help convert OCFL specs to Markdown."""
+import os
 import pathlib
 import re
 import textwrap
@@ -65,11 +66,24 @@ class Converter(object):
     """Convert from ReSpec HTML to Markdown."""
 
     def __init__(self):
-        """Initialize."""
+        """Initialize, do this for each new file."""
         self.writer = None
+        self.init_new_conversion()
+
+    def init_new_conversion(self):
+        """Initialize new conversion."""
+        self.run = 0  # will be incremented to 1 by init_first_run
+        self.init_new_run()
+
+    def init_new_run(self):
+        """Initilize for new run within a conversion."""
+        self.run += 1
+        self.passed_sotd = False
+        self.section = {}  # anchor -> heading including number
+        self.section_number = [0]  # will be incremented to 1 on first use
 
     def get_anchor(self, element):
-        """Look for id tags in element and make markdown anchor."""
+        """Look for id tags in element."""
         anchor = element.attrib.get('id', None)
         return anchor
 
@@ -120,13 +134,29 @@ class Converter(object):
 
     def process_section(self, element, level=1):
         """Process one <section> block."""
-        print("> level" + str(level) + ": ", element.tag, element.attrib)
+        section_number = ''
+        if self.passed_sotd:
+            # Now numbering sections
+            if level > (len(self.section_number) + 1):
+                # One level deeper, add extra number
+                self.section_number.append(1)
+            elif level == (len(self.section_number) + 1):
+                # Next section at same level
+                self.section_number[level - 2] += 1
+            else:
+                # Up a level
+                self.section_number.pop()
+                self.section_number[level - 2] += 1
+            section_number = '.'.join(str(n) for n in self.section_number)
+            section_number += '. ' if level == 2 else ' '
+        print("> level %d, section %s, attribs %s" % (level, section_number, element.attrib))
         if 'id' not in element.attrib:
             pass
         elif element.attrib['id'] == 'sotd':
             self.writer.line("## Status of This Document")
             self.writer.para("{: #sotd}")
             self.writer.para("This document is draft of a potential specification. It has no official standing of any kind and does not represent the support or consensus of any standards organisation.")
+            self.passed_sotd = True
             self.writer.para("INSERT_TOC_HERE")
             return
         elif element.attrib['id'] == 'conformance':
@@ -139,11 +169,14 @@ class Converter(object):
             if child.tag == 'section':
                 self.process_section(child, (level + 1))
             elif child.tag in ('h1', 'h2', 'h3'):
-                self.writer.line("#" * level, " ", child.text)
+                section_heading = section_number + child.text
                 if anchor is None:
-                    self.writer.line('')
-                else:
-                    self.writer.para("{: #%s}" % (anchor))
+                    anchor = re.sub(r'''\s+''', '-', child.text.lower())
+                if anchor in self.section:
+                    raise Bwaa("duplicate section anchor " + anchor)
+                self.section[anchor] = section_heading
+                self.writer.line("#" * level, " ", section_heading)
+                self.writer.para("{: #%s}" % (anchor))
                 if child.tail.strip() not in (None, ""):
                     raise Bwaa("Unexpected tail text ", child.tail)
             elif child.tag == 'p':
@@ -197,6 +230,7 @@ class Converter(object):
 
     def convert(self, src, dst, preamble=None):
         """Convert src ReSpec HTML to dst in Markdown."""
+        self.init_new_conversion()
         # Read XML
         print("Reading %s" % (src))
         path = pathlib.Path(src)
@@ -207,19 +241,21 @@ class Converter(object):
         root = ET.fromstring(src_xml)
         # Have parsed XML in root, now open dst for output and
         # then convert the chunks of the file by <section>
-        with open(dst, 'w', encoding='utf-8') as ofh:
-            ofh.write("---\n---\n")  # Jekyll frontmatter
-            if preamble:
-                ofh.write(pathlib.Path(preamble).read_text())
-            self.writer = Markdown_Writer(ofh)
-            body = root.find('body')
-            for child in body:
-                # At the top level we expect only <section> blocks, we will
-                # parse these recursively
-                if child.tag != 'section':
-                    raise Bwaa("Unexpected tag")
-                self.process_section(child, 2)
-
+        for output_file in (os.devnull, dst):
+            self.init_new_run()
+            with open(output_file, 'w', encoding='utf-8') as ofh:
+                print("# PASS %d" % (self.run))
+                ofh.write("---\n---\n")  # Jekyll frontmatter
+                if preamble:
+                    ofh.write(pathlib.Path(preamble).read_text())
+                self.writer = Markdown_Writer(ofh)
+                body = root.find('body')
+                for child in body:
+                    # At the top level we expect only <section> blocks, we will
+                    # parse these recursively
+                    if child.tag != 'section':
+                        raise Bwaa("Unexpected tag")
+                    self.process_section(child, 2)
 
 cnv = Converter()
 try:

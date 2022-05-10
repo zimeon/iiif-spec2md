@@ -150,7 +150,7 @@ Everything else in this specification is normative.
 The key words may, must, must not, should, and should not are to be
 interpreted as described in [RFC2119].
 
-## Terminology
+## 2. Terminology
 {: #terminology}
 
 * **Content Path:** The file path of a file on disk or in an object
@@ -206,7 +206,7 @@ the name provided in the _Extension Name_ property of the extension's
 definition in the [OCFL Extensions
 repository](https://ocfl.github.io/extensions/).
 
-## OCFL Object
+## 3. OCFL Object
 {: #object-spec}
 
 An OCFL Object is a group of one or more content files and
@@ -252,7 +252,7 @@ no position on what constitutes a version or a versionable action, but
 it is recommended that implementers have a clear position on this within
 their local storage policies.
 
-### Object Structure
+### 3.1 Object Structure
 {: #object-structure}
 
 The OCFL Object structure organizes content files and administrative
@@ -276,7 +276,7 @@ The [OCFL Object Root](#OCFL Object Root)<span id="E001">MUST NOT</span>
 contain files or directories other than those specified in the following
 sections.
 
-### Object Conformance Declaration
+### 3.2 Object Conformance Declaration
 {: #object-conformance-declaration}
 
 The OCFL specification version declaration <span id="E002">MUST</span>
@@ -290,7 +290,7 @@ id="E005">MUST</span> be 0, and `dvalue`<span id="E006">MUST</span> be
 text contents of the file <span id="E007">MUST</span> be the same as
 `dvalue`, followed by a newline (`\n`).
 
-### Version Directories
+### 3.3 Version Directories
 {: #version-directories}
 
 OCFL Object content <span id="E008">MUST</span> be stored as a sequence
@@ -330,7 +330,7 @@ id="W002">SHOULD NOT</span> contain any directories other than the
 designated content sub-directory. Once created, the contents of a
 version directory are expected to be immutable.
 
-#### Content Directory
+#### 3.3.1 Content Directory
 {: #content-directory}
 
 Version directories <span id="E016">MUST</span> contain a designated
@@ -364,7 +364,7 @@ would otherwise be empty MAY be maintained by creating a file within it
 named according to local conventions, for example by making an empty
 `.keep` file.
 
-### Digests
+### 3.4 Digests
 {: #digests}
 
 A [digest](#digest) plays two roles in an OCFL Object. The first is that
@@ -419,7 +419,7 @@ work with digests and inventories (as is the case in most common JSON
 libraries) then extra care must be taken to ensure case-insensitive
 comparisons are being made.
 
-### Inventory
+### 3.5 Inventory
 {: #inventory}
 
 An OCFL Object Inventory <span id="E033">MUST</span> follow the JSON
@@ -439,7 +439,7 @@ other separators will need to translate paths appropriately.
 Inventory files is provided at
 [inventory_schema.json](inventory_schema.json).
 
-#### Basic Structure
+#### 3.5.1 Basic Structure
 {: #inventory-structure}
 
 Every OCFL inventory <span id="E036">MUST</span> include the following
@@ -479,7 +479,7 @@ In addition to these keys, there <span id="E041">MUST</span> be two
 other blocks present, `manifest` and `versions`, which are discussed in
 the next two sections.
 
-#### Manifest
+#### 3.5.2 Manifest
 {: #manifest}
 
 The value of the `manifest` key <span id="E106">MUST</span> be a JSON
@@ -527,7 +527,7 @@ is shown below:
   }
 ```
 
-#### Versions
+#### 3.5.3 Versions
 {: #versions}
 
 An OCFL Object Inventory <span id="E043">MUST</span> include a block for
@@ -539,7 +539,7 @@ directories) used. Each value <span id="E047">MUST</span> be another
 JSON object that characterizes the version, as described in the
 [FIXME](#version) section.
 
-##### Version
+##### 3.5.3.1 Version
 {: #version}
 
 A JSON object to describe one [OCFL Version](#OCFL Version), which <span
@@ -624,7 +624,7 @@ of the user, e.g., a proper name, user ID, agent ID. The `address` value
 with the e-mail address of the user or a URL to a personal identifier,
 e.g., an ORCID iD.
 
-#### Fixity
+#### 3.5.4 Fixity
 {: #fixity}
 
 An OCFL Object inventory MAY include a block for storing additional
@@ -673,7 +673,7 @@ content paths.
   }
 ```
 
-### Inventory Digest
+### 3.6 Inventory Digest
 {: #inventory-digest}
 
 Every occurrence of an inventory file <span id="E058">MUST</span> have
@@ -699,7 +699,7 @@ The digest of the inventory <span id="E062">MUST</span> be computed only
 after all changes to the inventory have been made, and thus writing the
 digest sidecar file is the last step in the versioning process.
 
-### Version Inventory and Inventory Digest
+### 3.7 Version Inventory and Inventory Digest
 {: #version-inventory}
 
 Every OCFL Object <span id="E063">MUST</span> have an inventory file
@@ -723,7 +723,7 @@ each `version` block in each prior inventory file <span
 id="W011">SHOULD</span> have the same values as the corresponding keys
 in the corresponding `version` block in the current inventory file.
 
-#### Conformance of prior versions
+#### 3.7.1 Conformance of prior versions
 {: #conformance-of-prior-versions}
 
 Version directories in OCFL are intended to be immutable in that
@@ -735,7 +735,7 @@ are stored in the version directories then the OCFL specification
 version for a given version directory is apparent from the `type`
 attribute in that [inventory](#inventory-structure).
 
-### Logs Directory
+### 3.8 Logs Directory
 {: #logs-directory}
 
 The base directory of an OCFL Object MAY contain a directory named
@@ -756,7 +756,7 @@ entry indicating that an audit was conducted, and nothing was wrong,
 while others may wish to only store a log entry if an intervention was
 required.
 
-### Object Extensions
+### 3.9 Object Extensions
 {: #object-extensions}
 
 The base directory of an OCFL Object MAY contain a directory named
@@ -775,13 +775,13 @@ extension as well as to facilitate the recognition of extensions by OCFL
 clients. See also [Documenting Local Extensions](#documenting-local-
 extensions).
 
-## OCFL Storage Root
+## 4. OCFL Storage Root
 {: #storage-root}
 
 An [OCFL Storage Root](#OCFL Storage Root) is the base directory of an
 OCFL storage layout.
 
-### Root Structure
+### 4.1 Root Structure
 {: #root-structure}
 
 An OCFL Storage Root <span id="E069">MUST</span> contain a [Root
@@ -833,7 +833,7 @@ files and folders:
     └── ocfl_layout.json (description of storage hierarchy layout; optional)
 ```
 
-### Root Conformance Declaration
+### 4.2 Root Conformance Declaration
 {: #root-conformance-declaration}
 
 The OCFL version declaration <span id="E075">MUST</span> be formatted
@@ -853,7 +853,7 @@ Objects within the OCFL Storage Root also include a conformance
 declaration which <span id="E081">MUST</span> indicate OCFL Object
 conformance to the same or earlier version of the specification.
 
-### Storage Hierarchies
+### 4.3 Storage Hierarchies
 {: #root-hierarchies}
 
 [OCFL Object Root](#OCFL Object Root)s <span id="E082">MUST</span> be
@@ -882,7 +882,7 @@ id="W014">SHOULD</span> use just one layout pattern
 id="W015">SHOULD</span> consistently use either a directory hierarchy of
 OCFL Objects or top-level OCFL Objects
 
-### Storage Root Extensions
+### 4.4 Storage Root Extensions
 {: #storage-root-extensions}
 
 The behavior of the storage root may be extended to support features
@@ -899,7 +899,7 @@ additional features, such as providing the storage hierarchy disposition
 when pairtree is in use, or additional human-readable text about the
 nature of the storage root.
 
-### Documenting Local Extensions
+### 4.5 Documenting Local Extensions
 {: #documenting-local-extensions}
 
 It is preferable that both [Object Extensions](#object-extensions) and
@@ -909,7 +909,7 @@ repository](https://ocfl.github.io/extensions/). However, local
 extensions MAY be documented by including a plain text document directly
 in the storage root, thus making the storage root self-documenting.
 
-### Filesystem features
+### 4.6 Filesystem features
 {: #filesystem-features}
 
 In order to maximize the compatibility of the OCFL with different
@@ -940,10 +940,10 @@ filenames.
 should be effectively invisible to OCFL operations. Consequently, they
 should not be expected to be portable.
 
-## Examples
+## 5. Examples
 {: #examples}
 
-### Minimal OCFL Object
+### 5.1 Minimal OCFL Object
 {: #example-minimal-object}
 
 The following example OCFL Object has content that is a single file
@@ -989,7 +989,7 @@ in the `v1` directory, might be:
 }
 ```
 
-### Versioned OCFL Object
+### 5.2 Versioned OCFL Object
 {: #example-versioned-object}
 
 The following example OCFL Object has three versions:
@@ -1097,7 +1097,7 @@ metadata for each version.
 }
 ```
 
-### Different Logical and Content Paths in an OCFL Object
+### 5.3 Different Logical and Content Paths in an OCFL Object
 {: #example-object-diff-paths}
 
 The following example OCFL Object inventory shows how content paths may
@@ -1139,7 +1139,7 @@ will be able to recover version state with the original logical paths.
 }
 ```
 
-### BagIt in an OCFL Object
+### 5.4 BagIt in an OCFL Object
 {: #example-bagit-in-ocfl}
 
 [[BagIt]] is a common file packaging specification, but unlike the OCFL
@@ -1273,7 +1273,7 @@ The OCFL Inventory for this object would be as follows:
 }
 ```
 
-### Moab in an OCFL Object
+### 5.5 Moab in an OCFL Object
 {: #example-moab-in-ocfl}
 
 [[Moab]] is an archive information package format developed and used by
@@ -1467,7 +1467,7 @@ preserved content directory:
 }
 ```
 
-### Example Extended OCFL Storage Root
+### 5.6 Example Extended OCFL Storage Root
 {: #example-extended-storage-root}
 
 The following example OCFL Storage Root has an extension containing
@@ -1483,7 +1483,7 @@ custom content. The OCFL Storage Root itself remains valid.
     └── ocfl_layout.json
 ```
 
-### Example Extended OCFL Object
+### 5.7 Example Extended OCFL Object
 {: #example-extended-object}
 
 The following example OCFL Object has an extension containing custom
