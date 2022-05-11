@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """Hack to help convert OCFL specs to Markdown."""
+from collections import OrderedDict
+import json
 import os
 import pathlib
 import re
@@ -19,27 +21,34 @@ class Bwaa(Exception):
     pass
 
 
-def ref_anchor(label):
-    """Make reference anchor from label."""
-    return 'ref-' + re.sub(r'''[\s_]+''', '-', label.lower())
-
-def ref_link(matchobj):
-    """Make reference markdown link from label."""
-    anchor = ref_anchor(matchobj.group(2))
-    return "[" + matchobj.group(2) + "](#" + anchor + ")"
-
-
 class Markdown_Writer(object):
     """Write markdown output."""
 
-    def __init__(self, ofh):
+    def __init__(self, ofh, refs):
         """Initialize and set output filehandle."""
         self.ofh = ofh
+        self.refs = refs
+        self.refs_used = {}
+
+    def ref_link(self, matchobj):
+        """Make reference markdown link from label."""
+        label = matchobj.group(2)
+        if label not in self.refs:
+            raise Bwaa("Reference with label " + label + " not in references file")
+        anchor = 'ref-' + re.sub(r'''[\s_]+''', '-', label.lower())
+        self.refs_used[label] = anchor
+        return "\[[" + label + "](#" + anchor + ")\]"
+
+    def write_references(self):
+        """Write referencese section base on refs_used."""
+        for label in sorted(self.refs_used.keys()):
+            anchor = self.refs_used[label]
+            self.para("\[%s]{: #%s} %s" % (label, anchor, self.refs[label]))
 
     def munge_and_link(self, *args):
         """Sort out spaces and also link refs."""
         text = re.sub(r'''\s+''', ' ', " ".join(args))
-        text = re.sub(r'''\[\[(\!)(\S+)\]\]''', ref_link, text)
+        text = re.sub(r'''\[\[(\!)?(\S+)\]\]''', self.ref_link, text)
         return text
 
     def line(self, *args):
@@ -66,12 +75,14 @@ class Converter(object):
     """Convert from ReSpec HTML to Markdown."""
 
     def __init__(self):
-        """Initialize, do this for each new file."""
+        """Initialize."""
         self.writer = None
+        with open("references.json", "r") as fh:
+            self.refs = json.load(fh)
         self.init_new_conversion()
 
     def init_new_conversion(self):
-        """Initialize new conversion."""
+        """Initialize new conversion of a file."""
         self.run = 0  # will be incremented to 1 by init_first_run
         self.init_new_run()
 
@@ -79,7 +90,7 @@ class Converter(object):
         """Initilize for new run within a conversion."""
         self.run += 1
         self.passed_sotd = False
-        self.section = {}  # anchor -> heading including number
+        self.section = OrderedDict()  # anchor -> heading including number
         self.section_number = [0]  # will be incremented to 1 on first use
 
     def get_anchor(self, element):
@@ -251,7 +262,7 @@ class Converter(object):
                 ofh.write("---\n---\n")  # Jekyll frontmatter
                 if preamble:
                     ofh.write(pathlib.Path(preamble).read_text())
-                self.writer = Markdown_Writer(ofh)
+                self.writer = Markdown_Writer(ofh, self.refs)
                 body = root.find('body')
                 for child in body:
                     # At the top level we expect only <section> blocks, we will
@@ -259,6 +270,12 @@ class Converter(object):
                     if child.tag != 'section':
                         raise Bwaa("Unexpected tag")
                     self.process_section(child, 2)
+                # Finally, add references
+                self.section['references'] = "References"
+                self.writer.line("## " + "References")
+                self.writer.para("{: #references}")
+                self.writer.write_references()
+
 
 cnv = Converter()
 try:

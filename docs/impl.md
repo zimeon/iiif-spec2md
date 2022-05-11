@@ -3,9 +3,9 @@
 ## Introduction
 {: #abstract}
 
-This document provides guidance on implementation of the [[OCFL-
-Specification]] for how clients should behave when operating on OCFL
-Objects.
+This document provides guidance on implementation of the \[[OCFL-
+Specification](#ref-ocfl-specification)\] for how clients should behave
+when operating on OCFL Objects.
 
 ## Status of This Document
 {: #sotd}
@@ -26,15 +26,16 @@ A key goal of the OCFL is the rebuildability of a repository from an
 OCFL storage root without additional information resources.
 Consequently, a key implementation consideration should be to ensure
 that OCFL objects contain all the data and metadata required to achieve
-this. With reference to the [[OAIS]] model, this would include all the
-descriptive, administrative, structural, representation, and
-preservation metadata relevant to the object.
+this. With reference to the \[[OAIS](#ref-oais)\] model, this would
+include all the descriptive, administrative, structural, representation,
+and preservation metadata relevant to the object.
 
 Additionally, as an aid to those who may need to recover OCFL objects in
-the future, it is recommended that a copy of the [[OCFL-Specification]]
-is stored in the top level of the OCFL storage root. The OCFL ignores
-files other than the conformance declaration at the top level so it is a
-good location to store documentation that may be useful for recovery.
+the future, it is recommended that a copy of the \[[OCFL-
+Specification](#ref-ocfl-specification)\] is stored in the top level of
+the OCFL storage root. The OCFL ignores files other than the conformance
+declaration at the top level so it is a good location to store
+documentation that may be useful for recovery.
 
 A more complete approach would be to create a specific OCFL object that
 contains this documentation and to have a pointer to its location in the
@@ -182,9 +183,9 @@ client and storage operations.
 Strictly speaking, the OCFL only requires that an OCFL Storage Root
 contains OCFL Objects in directories, distributed in some manner in the
 underlying filesystem. In turn, an OCFL object is identified purely by
-the presence of a [[NAMASTE]] conformance file in the object root. The
-presence and correctness of inventory files and version directories are
-a validation rather than an identification concern.
+the presence of a \[[NAMASTE](#ref-namaste)\] conformance file in the
+object root. The presence and correctness of inventory files and version
+directories are a validation rather than an identification concern.
 
 These definitions allow a lot of freedom as to how objects are arranged
 beneath an OCFL Storage Root and, while there is no strict requirement
@@ -258,15 +259,15 @@ Storage Roots).
                 └── ...
 ```
 
-* PairTree: [[PairTree]] is designed to overcome the limitations on the
-number of files in a directory that most file systems have. It creates
-hierarchy of directories by mapping identifier strings to directory
-paths two characters at a time. For numerical identifiers specified in
-hexadecimal this means that there are a maximum of 256 items in any
-directory which is well within the capacity of any modern filesystem.
-However, for long identifiers, pairtree creates a large number of
-directories which will be sparsely populated unless the number of
-objects is very large. Traversing all these directories during
+* PairTree: \[[PairTree](#ref-pairtree)\] is designed to overcome the
+limitations on the number of files in a directory that most file systems
+have. It creates hierarchy of directories by mapping identifier strings
+to directory paths two characters at a time. For numerical identifiers
+specified in hexadecimal this means that there are a maximum of 256
+items in any directory which is well within the capacity of any modern
+filesystem. However, for long identifiers, pairtree creates a large
+number of directories which will be sparsely populated unless the number
+of objects is very large. Traversing all these directories during
 validation or rebuilding operations can be slow.
 
   * ```
@@ -793,4 +794,22 @@ directory (which is the newly created one).
 3. Any overlying transactional store will need cleanup but basically
 repeat 5-9 above after validating all object checksums - considering
 some sort of failure has just occurred.
+
+## References
+{: #references}
+
+\[NAMASTE]{: #ref-namaste} Directory Description with Namaste Tags. J.
+Kunze.9 November 2009. URL:
+<https://confluence.ucop.edu/download/attachments/14254149/NamasteSpec.pdf>
+
+\[OAIS]{: #ref-oais} Reference Model for an Open Archival Information
+System (OAIS), Issue 2. June 2012. URL:
+<https://public.ccsds.org/pubs/650x0m2.pdf>
+
+\[OCFL-Specification]{: #ref-ocfl-specification} OCFL Specification.
+URL: <https://ocfl.io/draft/spec>
+
+\[PairTree]{: #ref-pairtree} Pairtrees for Object Storage. J. Kunze; M.
+Haye; E. Hetzner; M. Reyes; C. Snavely.12 August 2008. URL:
+<https://confluence.ucop.edu/display/Curation/PairTree>
 

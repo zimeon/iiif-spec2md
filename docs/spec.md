@@ -86,12 +86,12 @@ been used in the past.
 Another need expressed by the community was the need to update and
 change objects, either the content itself or the metadata associated
 with the object. The OCFL relies heavily on the prior art in the
-[[Moab]] Design for Digital Object Versioning which utilizes forward
-deltas to track the history of the object. Utilizing this schema allows
-implementers of the OCFL to easily recreate past versions of an OCFL
-object. Like with objects, the OCFL remains silent on when versioning
-should occur recognizing this may differ from implementation to
-implementation.
+\[[Moab](#ref-moab)\] Design for Digital Object Versioning which
+utilizes forward deltas to track the history of the object. Utilizing
+this schema allows implementers of the OCFL to easily recreate past
+versions of an OCFL object. Like with objects, the OCFL remains silent
+on when versioning should occur recognizing this may differ from
+implementation to implementation.
 
 #### Robustness
 {: #robustness}
@@ -119,10 +119,10 @@ object stores.
 This normative specification describes the nature of an OCFL Object (the
 "object-at-rest") and the arrangement of OCFL Objects under an OCFL
 Storage Root. A set of recommendations for how OCFL Objects should be
-acted upon (the "object-in-motion") can be found in the [[OCFL-
-Implementation-Notes]]. The OCFL editorial group recommends reading both
-the specification and the implementation notes in order to understand
-the full scope of the OCFL.
+acted upon (the "object-in-motion") can be found in the \[[OCFL-
+Implementation-Notes](#ref-ocfl-implementation-notes)\]. The OCFL
+editorial group recommends reading both the specification and the
+implementation notes in order to understand the full scope of the OCFL.
 
 This specification is designed to operate on storage systems that employ
 a hierarchical metaphor for presenting data to users. On traditional
@@ -193,10 +193,11 @@ object may contain a sequence of versions of the files that represent
 the evolution of the object's contents.
 
 * **OCFL Object Root:** The base directory of an [OCFL Object](#OCFL
-Object), identified by a [[NAMASTE]] file "0=ocfl_object_1.1".
+Object), identified by a \[[NAMASTE](#ref-namaste)\] file
+"0=ocfl_object_1.1".
 
 * **OCFL Storage Root:** A base directory used to store OCFL Objects,
-identified by a [[NAMASTE]] file "0=ocfl_1.1".
+identified by a \[[NAMASTE](#ref-namaste)\] file "0=ocfl_1.1".
 
 * **OCFL Version:** The state of an [OCFL Object](#OCFL Object)'s
 content which is constructed using the incremental changes recorded in
@@ -242,9 +243,9 @@ A key goal of the OCFL is the rebuildability of a repository from an
 OCFL Storage Root without additional information resources.
 Consequently, a key implementation consideration should be to ensure
 that OCFL Objects contain all the data and metadata required to achieve
-this. With reference to the [[OAIS]] model, this would include all the
-descriptive, administrative, structural, representation and preservation
-metadata relevant to the object.
+this. With reference to the \[[OAIS](#ref-oais)\] model, this would
+include all the descriptive, administrative, structural, representation
+and preservation metadata relevant to the object.
 
 A central feature of the OCFL specification is support for versioning.
 This recognizes that digital objects will change over time, through new
@@ -281,7 +282,7 @@ sections.
 {: #object-conformance-declaration}
 
 The OCFL specification version declaration <span id="E002">MUST</span>
-be formatted according to the [NAMASTE](#ref-namaste) specification.
+be formatted according to the \[[NAMASTE](#ref-namaste)\] specification.
 There <span id="E003">MUST</span> be exactly one version declaration
 file in the base directory of the [OCFL Object Root](#OCFL Object Root)
 giving the OCFL version in the filename. The filename <span
@@ -389,19 +390,20 @@ implementations are available.
 For storage of additional fixity values, or to support legacy content
 migration, implementers <span id="E026">MUST</span> choose from the
 following controlled vocabulary of digest algorithms, or from a list of
-additional algorithms given in the [[Digest-Algorithms-Extension]]. OCFL
-clients <span id="E027">MUST</span> support all fixity algorithms given
-in the table below, and MAY support additional algorithms from the
-extensions. Optional fixity algorithms that are not supported by a
-client <span id="E028">MUST</span> be ignored by that client.
+additional algorithms given in the \[[Digest-Algorithms-Extension](#ref-
+digest-algorithms-extension)\]. OCFL clients <span id="E027">MUST</span>
+support all fixity algorithms given in the table below, and MAY support
+additional algorithms from the extensions. Optional fixity algorithms
+that are not supported by a client <span id="E028">MUST</span> be
+ignored by that client.
 
 | Digest Algorithm Name | Note |
 | --- | --- |
-| `md5` | Insecure. Use only for legacy fixity values. MD5 algorithm and hex encoding defined by [RFC1321](#ref-rfc1321). For example, the `md5` digest of a zero-length bitstream is `d41d8cd98f00b204e9800998ecf8427e`. |
-| `sha1` | Insecure. Use only for legacy fixity values. SHA-1 algorithm defined by [FIPS-180-4](#ref-fips-180-4) and <span id="E029">MUST</span> be encoded using hex (base16) encoding [RFC4648](#ref-rfc4648). For example, the `sha1` digest of a zero-length bitstream is `da39a3ee5e6b4b0d3255bfef95601890afd80709`. |
-| `sha256` | Non-truncated form only; note performance implications. SHA-256 algorithm defined by [FIPS-180-4](#ref-fips-180-4) and <span id="E030">MUST</span> be encoded using hex (base16) encoding [RFC4648](#ref-rfc4648). For example, the `sha256` digest of a zero-length bitstream starts `e3b0c44298fc1c149afbf4c8996fb92427ae41e4...` (64 hex digits long). |
-| `sha512` | Default choice. Non-truncated form only. SHA-512 algorithm defined by [FIPS-180-4](#ref-fips-180-4) and <span id="E031">MUST</span> be encoded using hex (base16) encoding [RFC4648](#ref-rfc4648). For example, the `sha512` digest of a zero-length bitstream starts `cf83e1357eefb8bdf1542850d66d8007d620e405...` (128 hex digits long). |
-| `blake2b-512` | Full-length form only, using the 2B variant (64 bit) as defined by [RFC7693](#ref-rfc7693). <span id="E032">MUST</span> be encoded using hex (base16) encoding [RFC4648](#ref-rfc4648). For example, the `blake2b-512` digest of a zero-length bitstream starts `786a02f742015903c6c6fd852552d272912f4740...` (128 hex digits long). |
+| `md5` | Insecure. Use only for legacy fixity values. MD5 algorithm and hex encoding defined by \[[RFC1321](#ref-rfc1321)\]. For example, the `md5` digest of a zero-length bitstream is `d41d8cd98f00b204e9800998ecf8427e`. |
+| `sha1` | Insecure. Use only for legacy fixity values. SHA-1 algorithm defined by \[[FIPS-180-4](#ref-fips-180-4)\] and <span id="E029">MUST</span> be encoded using hex (base16) encoding \[[RFC4648](#ref-rfc4648)\]. For example, the `sha1` digest of a zero-length bitstream is `da39a3ee5e6b4b0d3255bfef95601890afd80709`. |
+| `sha256` | Non-truncated form only; note performance implications. SHA-256 algorithm defined by \[[FIPS-180-4](#ref-fips-180-4)\] and <span id="E030">MUST</span> be encoded using hex (base16) encoding \[[RFC4648](#ref-rfc4648)\]. For example, the `sha256` digest of a zero-length bitstream starts `e3b0c44298fc1c149afbf4c8996fb92427ae41e4...` (64 hex digits long). |
+| `sha512` | Default choice. Non-truncated form only. SHA-512 algorithm defined by \[[FIPS-180-4](#ref-fips-180-4)\] and <span id="E031">MUST</span> be encoded using hex (base16) encoding \[[RFC4648](#ref-rfc4648)\]. For example, the `sha512` digest of a zero-length bitstream starts `cf83e1357eefb8bdf1542850d66d8007d620e405...` (128 hex digits long). |
+| `blake2b-512` | Full-length form only, using the 2B variant (64 bit) as defined by \[[RFC7693](#ref-rfc7693)\]. <span id="E032">MUST</span> be encoded using hex (base16) encoding \[[RFC4648](#ref-rfc4648)\]. For example, the `blake2b-512` digest of a zero-length bitstream starts `786a02f742015903c6c6fd852552d272912f4740...` (128 hex digits long). |
 
 An OCFL Inventory MAY contain a fixity section that can store one or
 more blocks containing fixity values using multiple digest algorithms.
@@ -424,10 +426,10 @@ comparisons are being made.
 {: #inventory}
 
 An OCFL Object Inventory <span id="E033">MUST</span> follow the JSON
-(defined by [RFC8259](#ref-rfc8259)) structure described in this section
-with contents encoded in UTF-8, and <span id="E034">MUST</span> be named
-`inventory.json`. The order of entries in both the JSON objects and
-arrays used in inventory files has no significance. An OCFL Object
+(defined by \[[RFC8259](#ref-rfc8259)\]) structure described in this
+section with contents encoded in UTF-8, and <span id="E034">MUST</span>
+be named `inventory.json`. The order of entries in both the JSON objects
+and arrays used in inventory files has no significance. An OCFL Object
 Inventory <span id="E102">MUST NOT</span> contain any keys not described
 in this specification.
 
@@ -436,8 +438,8 @@ in content paths in the [manifest](#manifest) and [fixity](#fixity)
 blocks within the inventory. Implementations that target systems using
 other separators will need to translate paths appropriately.
 
-> Non-normative note: A [[JSON-Schema]] for validating OCFL Object
-Inventory files is provided at
+> Non-normative note: A \[[JSON-Schema](#ref-json-schema)\] for
+validating OCFL Object Inventory files is provided at
 [inventory_schema.json](inventory_schema.json).
 
 #### 3.5.1 Basic Structure
@@ -449,9 +451,9 @@ keys:
 * **id:** A unique identifier for the OCFL Object. This <span
 id="E037">MUST</span> be unique in the local context, <span
 id="E110">MUST NOT</span> change between versions of the same object,
-and <span id="W005">SHOULD</span> be a URI [RFC3986](#ref-rfc3986).
+and <span id="W005">SHOULD</span> be a URI \[[RFC3986](#ref-rfc3986)\].
 There is no expectation that a URI used is resolvable. For example, URNs
-[[RFC8141]] MAY be used.
+\[[RFC8141](#ref-rfc8141)\] MAY be used.
 
 * **type:** A type for the inventory JSON object that also serves to
 document the OCFL specification version that the inventory complies
@@ -548,7 +550,7 @@ id="E048">MUST</span> include the following keys:
 
 * **created:** The value of this key is the datetime of creation of this
 version. It <span id="E049">MUST</span> be expressed in the Internet
-Date/Time Format defined by [RFC3339](#ref-rfc3339). This format
+Date/Time Format defined by \[[RFC3339](#ref-rfc3339)\]. This format
 requires the inclusion of a timezone value or `Z` for UTC, and that the
 time component be granular to the second level (with optional fractional
 seconds).
@@ -585,7 +587,8 @@ uses content-addressing to map logical paths to their bitstreams, as
 expressed in the manifest section of the inventory. Notably, the version
 state provides de-duplication of content within the OCFL Object by
 mapping multiple logical paths with the same content to the same digest
-in the manifest. See [[OCFL-Implementation-Notes]].
+in the manifest. See \[[OCFL-Implementation-Notes](#ref-ocfl-
+implementation-notes)\].
 
 > An example `state` block is shown below:
 
@@ -621,9 +624,9 @@ Version). The value of the `user` key <span id="E054">MUST</span>
 contain a user name key, `name` and <span id="W008">SHOULD</span>
 contain an address key, `address`. The `name` value is any readable name
 of the user, e.g., a proper name, user ID, agent ID. The `address` value
-<span id="W009">SHOULD</span> be a URI: either a mailto URI [[RFC6068]]
-with the e-mail address of the user or a URL to a personal identifier,
-e.g., an ORCID iD.
+<span id="W009">SHOULD</span> be a URI: either a mailto URI
+\[[RFC6068](#ref-rfc6068)\] with the e-mail address of the user or a URL
+to a personal identifier, e.g., an ORCID iD.
 
 #### 3.5.4 Fixity
 {: #fixity}
@@ -806,8 +809,8 @@ directories <span id="E073">MUST NOT</span> appear under a storage root.
 An OCFL Storage Root MAY contain a file named `ocfl_layout.json` to
 describe the arrangement of directories and OCFL objects under the
 storage root. If present, `ocfl_layout.json`<span id="E070">MUST</span>
-be a JSON (defined by [RFC8259](#ref-rfc8259)) document encoded in UTF-8
-and include the following two keys in the root JSON object:
+be a JSON (defined by \[[RFC8259](#ref-rfc8259)\]) document encoded in
+UTF-8 and include the following two keys in the root JSON object:
 
 * `extension` - An extension name that identifies an arrangement of
 directories and OCFL objects under the storage root, i.e. how OCFL
@@ -838,7 +841,7 @@ files and folders:
 {: #root-conformance-declaration}
 
 The OCFL version declaration <span id="E075">MUST</span> be formatted
-according to the [NAMASTE](#ref-namaste) specification. There <span
+according to the \[[NAMASTE](#ref-namaste)\] specification. There <span
 id="E076">MUST</span> be exactly one version declaration file in the
 base directory of the [OCFL Storage Root](#OCFL Storage Root) giving the
 OCFL version in the filename. The filename <span id="E077">MUST</span>
@@ -864,8 +867,8 @@ Root](#OCFL Storage Root).
 
 A common practice is to use a unique identifier scheme to compose this
 storage hierarchy, typically arranged according to some form of the
-[[PairTree]] specification. Irrespective of the pattern chosen for the
-storage hierarchies, the following restrictions apply:
+\[[PairTree](#ref-pairtree)\] specification. Irrespective of the pattern
+chosen for the storage hierarchies, the following restrictions apply:
 
 1. There <span id="E083">MUST</span> be a deterministic mapping from an
 object identifier to a unique storage path
@@ -1143,12 +1146,12 @@ will be able to recover version state with the original logical paths.
 ### 5.4 BagIt in an OCFL Object
 {: #example-bagit-in-ocfl}
 
-[[BagIt]] is a common file packaging specification, but unlike the OCFL
-it does not provide a mechanism for content versioning. Using the OCFL
-it is possible to store a BagIt structure with content versioning, such
-that when the [logical state](#logical state) is resolved, it creates a
-valid BagIt 'bag'. This example will illustrate one way this can be
-accomplished, using the [example of a basic
+\[[BagIt](#ref-bagit)\] is a common file packaging specification, but
+unlike the OCFL it does not provide a mechanism for content versioning.
+Using the OCFL it is possible to store a BagIt structure with content
+versioning, such that when the [logical state](#logical state) is
+resolved, it creates a valid BagIt 'bag'. This example will illustrate
+one way this can be accomplished, using the [example of a basic
 bag](https://datatracker.ietf.org/doc/html/rfc8493#section-4.1) given in
 the BagIt specification.
 
@@ -1277,10 +1280,10 @@ The OCFL Inventory for this object would be as follows:
 ### 5.5 Moab in an OCFL Object
 {: #example-moab-in-ocfl}
 
-[[Moab]] is an archive information package format developed and used by
-Stanford University. Many of the ideas in Moab have been refined by the
-OCFL, and the OCFL is designed to give institutions currently using Moab
-an easy path to adoption.
+\[[Moab](#ref-moab)\] is an archive information package format developed
+and used by Stanford University. Many of the ideas in Moab have been
+refined by the OCFL, and the OCFL is designed to give institutions
+currently using Moab an easy path to adoption.
 
 Converting content preserved in a Moab object in a way that does not
 compromise existing Moab access patterns whilst allowing for the
@@ -1504,4 +1507,76 @@ content. The OCFL Object itself remains valid.
         └── content
             └── file.txt
 ```
+
+## References
+{: #references}
+
+\[BagIt]{: #ref-bagit} The BagIt File Packaging Format (V1.0). J. Kunze;
+J. Littman; E. Madden; J. Scancella; C. Adams.17 September 2018. URL:
+<https://datatracker.ietf.org/doc/html/rfc8493>
+
+\[Digest-Algorithms-Extension]{: #ref-digest-algorithms-extension} OCFL
+Community Extension 0001: Digest Algorithms. OCFL Editors.URL:
+<https://ocfl.github.io/extensions/0001-digest-algorithms.html>
+
+\[FIPS-180-4]{: #ref-fips-180-4} FIPS PUB 180-4 Secure Hash Standard.
+U.S. Department of Commerce/National Institute of Standards and
+Technology. URL:
+<https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf>
+
+\[JSON-Schema]{: #ref-json-schema} JSON Schema Validation: A Vocabulary
+for Structural Validation of JSON. A. Wright; H Andrews.20 September
+2018. URL: <https://json-schema.org/latest/json-schema-validation.html>
+
+\[Moab]{: #ref-moab} The Moab Design for Digital Object Versioning.
+Richard Anderson.15 July 2013. URL:
+<https://journal.code4lib.org/articles/8482>
+
+\[NAMASTE]{: #ref-namaste} Directory Description with Namaste Tags. J.
+Kunze.9 November 2009. URL:
+<https://confluence.ucop.edu/download/attachments/14254149/NamasteSpec.pdf>
+
+\[OAIS]{: #ref-oais} Reference Model for an Open Archival Information
+System (OAIS), Issue 2. June 2012. URL:
+<https://public.ccsds.org/pubs/650x0m2.pdf>
+
+\[OCFL-Implementation-Notes]{: #ref-ocfl-implementation-notes} OCFL
+Implementation Notes. URL: <https://ocfl.io/draft/implementation-notes>
+
+\[PairTree]{: #ref-pairtree} Pairtrees for Object Storage. J. Kunze; M.
+Haye; E. Hetzner; M. Reyes; C. Snavely.12 August 2008. URL:
+<https://confluence.ucop.edu/display/Curation/PairTree>
+
+\[RFC1321]{: #ref-rfc1321} The MD5 Message-Digest Algorithm. R. Rivest.
+IETF. April 1992. Informational. URL: <https://www.rfc-
+editor.org/rfc/rfc1321>
+
+\[RFC3339]{: #ref-rfc3339} Date and Time on the Internet: Timestamps. G.
+Klyne; C. Newman. IETF. July 2002. Proposed Standard. URL:
+<https://www.rfc-editor.org/rfc/rfc3339>
+
+\[RFC3986]{: #ref-rfc3986} Uniform Resource Identifier (URI): Generic
+Syntax. T. Berners-Lee; R. Fielding; L. Masinter. IETF. January 2005.
+Internet Standard. URL: <https://www.rfc-editor.org/rfc/rfc3986>
+
+\[RFC4648]{: #ref-rfc4648} The Base16, Base32, and Base64 Data
+Encodings. S. Josefsson. IETF. October 2006. Proposed Standard. URL:
+<https://www.rfc-editor.org/rfc/rfc4648>
+
+\[RFC6068]{: #ref-rfc6068} The 'mailto' URI Scheme. M. Duerst; L.
+Masinter; J. Zawinski. IETF. October 2010. Proposed Standard. URL:
+<https://www.rfc-editor.org/rfc/rfc6068>
+
+\[RFC7693]{: #ref-rfc7693} The BLAKE2 Cryptographic Hash and Message
+Authentication Code (MAC). M-J. Saarinen, Ed.; J-P. Aumasson. IETF.
+November 2015. Informational. URL: <https://www.rfc-
+editor.org/rfc/rfc7693>
+
+\[RFC8141]{: #ref-rfc8141} Uniform Resource Names (URNs). P. Saint-
+Andre; J. Klensin. IETF. April 2017. Proposed Standard. URL:
+<https://www.rfc-editor.org/rfc/rfc8141>
+
+\[RFC8259]{: #ref-rfc8259} The JavaScript Object Notation (JSON) Data
+Interchange Format. T. Bray, Ed.. IETF. December 2017. Internet
+Standard. URL: <https://www.rfc-editor.org/rfc/rfc8259>
 
