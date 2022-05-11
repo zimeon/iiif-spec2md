@@ -49,8 +49,6 @@ This document is draft of a potential specification. It has no official
 standing of any kind and does not represent the support or consensus of
 any standards organisation.
 
-INSERT_TOC_HERE
-
 ## 1. Digital Preservation
 {: #digital-preservation}
 

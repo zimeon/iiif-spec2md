@@ -201,7 +201,6 @@ class Converter(object):
             self.writer.para("{: #sotd}")
             self.writer.para("This document is draft of a potential specification. It has no official standing of any kind and does not represent the support or consensus of any standards organisation.")
             self.passed_sotd = True
-            self.writer.para("INSERT_TOC_HERE")
             return
         elif element.attrib['id'] == 'conformance':
             section_heading = section_number + "Conformance"
