@@ -1,9 +1,9 @@
 <img src="https://avatars0.githubusercontent.com/u/35607965" alt="OCFL Hand-drive logo" style="float:right;width:307px;height:307px;"/>
-# Oxford Common File Layout Specification
+# Implementation Notes, Oxford Common File Layout Specification
 
 Unofficial Draft 05 May 2022
 
-Latest editor's draft: <https://ocfl.io/draft/spec/>
+Latest editor's draft: <https://ocfl.io/draft/implementation-notes/>
 
 **Editors:**
 
@@ -15,12 +15,12 @@ Latest editor's draft: <https://ocfl.io/draft/spec/>
 
 **Additional Documents:**
 
-* [Implementation Notes](https://ocfl.io/draft/implementation-notes/)
+* [Specification](https://ocfl.io/draft/spec/)
 * [Validation Codes](https://ocfl.io/draft/spec/validation-codes.html)
 * [Extensions](https://github.com/OCFL/extensions/)
 
 **Previous version:**
-* <https://ocfl.io/1.0/spec/>
+* <https://ocfl.io/1.0/implementation-notes/>
 
 **Repository:**
 * [Github](https://github.com/ocfl/spec)

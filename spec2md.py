@@ -304,6 +304,6 @@ class Converter(object):
 cnv = Converter()
 try:
     cnv.convert(src=spec_src, dst=spec_dst, preamble="spec_preamble.md")
-    cnv.convert(src=impl_src, dst=impl_dst)
+    cnv.convert(src=impl_src, dst=impl_dst, preamble="impl_preamble.md")
 except Bwaa as e:
     print(e)
