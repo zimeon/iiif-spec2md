@@ -539,8 +539,8 @@ storing versions. This block <span id="E044">MUST</span> have the key of
 JSON object. The keys of this object <span id="E046">MUST</span>
 correspond to the names of the [version directories](#version-
 directories) used. Each value <span id="E047">MUST</span> be another
-JSON object that characterizes the version, as described in the
-[FIXME](#version) section.
+JSON object that characterizes the version, as described in the [3.5.3.1
+Version](#version) section.
 
 ##### 3.5.3.1 Version
 {: #version}
@@ -643,8 +643,8 @@ correspond to the controlled vocabulary of [digest algorithm
 names](#digest-algorithms) listed in the [Digests](#digests) section, or
 in a table given in an [Extension](#Extension). The value of the fixity
 block for a particular digest algorithm <span id="E057">MUST</span>
-follow the structure of the [FIXME](#manifest) block; that is, a key
-corresponding to the digest value, and an array of [content
+follow the structure of the [3.5.2 Manifest](#manifest) block; that is,
+a key corresponding to the digest value, and an array of [content
 path](#content path)s. The `fixity` block for any digest algorithm MAY
 include digest values for any subset of content paths in the object.
 Where included, the digest values given <span id="E093">MUST</span>

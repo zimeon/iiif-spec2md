@@ -103,13 +103,12 @@ class Converter(object):
     def init_new_conversion(self):
         """Initialize new conversion of a file."""
         self.run = 0  # will be incremented to 1 by init_first_run
-        self.init_new_run()
+        self.section = OrderedDict()  # anchor -> heading including number
 
     def init_new_run(self):
         """Initilize for new run within a conversion."""
         self.run += 1
         self.passed_sotd = False
-        self.section = OrderedDict()  # anchor -> heading including number
         self.section_number = [0]  # will be incremented to 1 on first use
 
     def get_anchor(self, element):
@@ -126,8 +125,13 @@ class Converter(object):
             text = child.text.strip() if child.text is not None else None
             if child.tag == 'a':
                 if text is None:
-                    print("FIXME need section label for " + child.attrib['href'])
-                    text = 'FIXME'
+                    anchor = child.attrib["href"].lstrip("#")
+                    if anchor in self.section:
+                        text = self.section[anchor]
+                    elif self.run == 2:
+                        raise Bwaa("No section heading for anchor " + anchor)
+                    else:
+                        text = 'FIXME-IN-RUN-2'
                 if 'href' in child.attrib:
                     txt += "[" + text + "](" + child.attrib['href'] + ")"
                 else:
@@ -205,9 +209,10 @@ class Converter(object):
                 section_heading = section_number + child.text
                 if anchor is None:
                     anchor = re.sub(r'''\s+''', '-', child.text.lower())
-                if anchor in self.section:
-                    raise Bwaa("duplicate section anchor " + anchor)
-                self.section[anchor] = section_heading
+                if self.run == 1:
+                    if anchor in self.section:
+                        raise Bwaa("duplicate section anchor " + anchor)
+                    self.section[anchor] = section_heading
                 self.writer.line("#" * level, " ", section_heading)
                 self.writer.para("{: #%s}" % (anchor))
                 if child.tail.strip() not in (None, ""):
