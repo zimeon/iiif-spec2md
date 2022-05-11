@@ -833,7 +833,7 @@ some sort of failure has just occurred.
 ## 4. References
 {: #references}
 
-### Informative
+### 4.1 Informative References
 {: #informative-references}
 
 <span id="ref-namaste"/>**\[NAMASTE]** Directory Description with

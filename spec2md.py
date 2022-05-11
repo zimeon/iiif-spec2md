@@ -42,8 +42,8 @@ class Markdown_Writer(object):
         self.refs_used[label] = anchor
         return "\[[" + label + "](#" + anchor + ")\]"
 
-    def write_references(self):
-        """Write referencese section base on refs_used."""
+    def write_references(self, section_number):
+        """Write references section base on refs_used."""
         normative = []
         informative = []
         for label in sorted(self.refs_used.keys()):
@@ -53,13 +53,17 @@ class Markdown_Writer(object):
                 normative.append(md)
             else:
                 informative.append(md)
+        sub_sec = 1
         if normative:
-            self.line("### Normative")
+            num = section_number.strip() + str(sub_sec)
+            sub_sec += 1
+            self.line("### " + num + " Normative References")
             self.para("{: #normative-references}")
             for md in normative:
                 self.para(md)
         if informative:
-            self.line("### Informative")
+            num = section_number.strip() + str(sub_sec)
+            self.line("### " + num + " Informative References")
             self.para("{: #informative-references}")
             for md in informative:
                 self.para(md)
@@ -306,7 +310,7 @@ class Converter(object):
                 self.section['references'] = heading
                 self.writer.line("## " + heading)
                 self.writer.para("{: #references}")
-                self.writer.write_references()
+                self.writer.write_references(section_number)
 
 
 cnv = Converter()

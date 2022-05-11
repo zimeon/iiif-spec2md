@@ -1511,7 +1511,7 @@ content. The OCFL Object itself remains valid.
 ## 6. References
 {: #references}
 
-### Normative
+### 6.1 Normative References
 {: #normative-references}
 
 <span id="ref-fips-180-4"/>**\[FIPS-180-4]** FIPS PUB 180-4 Secure Hash
@@ -1549,7 +1549,7 @@ editor.org/rfc/rfc7693>
 (JSON) Data Interchange Format. T. Bray, Ed.. IETF. December 2017\.
 Internet Standard. URL: <https://www.rfc-editor.org/rfc/rfc8259>
 
-### Informative
+### 6.2 Informative References
 {: #informative-references}
 
 <span id="ref-bagit"/>**\[BagIt]** The BagIt File Packaging Format
