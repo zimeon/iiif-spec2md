@@ -48,11 +48,12 @@ digital repositories.
 {: #need}
 
 The OCFL initiative began as a discussion amongst digital repository
-practitioners to identify well-defined, common, and application-
-independent file management for a digital repository's persisted objects
-and represents a specification of the community’s collective
-recommendations addressing five primary requirements: completeness,
-parsability, versioning, robustness, and storage diversity.
+practitioners to identify well-defined, common, and
+application-independent file management for a digital repository's
+persisted objects and represents a specification of the community’s
+collective recommendations addressing five primary requirements:
+completeness, parsability, versioning, robustness, and storage
+diversity.
 
 #### Completeness
 {: #completeness}
@@ -119,9 +120,9 @@ object stores.
 This normative specification describes the nature of an OCFL Object (the
 "object-at-rest") and the arrangement of OCFL Objects under an OCFL
 Storage Root. A set of recommendations for how OCFL Objects should be
-acted upon (the "object-in-motion") can be found in the \[[OCFL-
-Implementation-Notes](#ref-ocfl-implementation-notes)\]. The OCFL
-editorial group recommends reading both the specification and the
+acted upon (the "object-in-motion") can be found in the
+\[[OCFL-Implementation-Notes](#ref-ocfl-implementation-notes)\]. The
+OCFL editorial group recommends reading both the specification and the
 implementation notes in order to understand the full scope of the OCFL.
 
 This specification is designed to operate on storage systems that employ
@@ -374,8 +375,8 @@ digests allow for content-addressable reference to files within the OCFL
 Object. That is, the connection between a file's [content path](#content
 path) on physical storage and its [logical path](#logical path) in a
 version of the object's content is made with a digest of its contents,
-rather than its filename. This use of the content digest facilitates de-
-duplication of files with the same content within an object, such as
+rather than its filename. This use of the content digest facilitates
+de-duplication of files with the same content within an object, such as
 files that are unchanged from one version to the next. The second role
 that digests play is provide for fixity checks to determine whether a
 file has become corrupt, through hardware degradation or accident for
@@ -390,12 +391,12 @@ implementations are available.
 For storage of additional fixity values, or to support legacy content
 migration, implementers <span id="E026">MUST</span> choose from the
 following controlled vocabulary of digest algorithms, or from a list of
-additional algorithms given in the \[[Digest-Algorithms-Extension](#ref-
-digest-algorithms-extension)\]. OCFL clients <span id="E027">MUST</span>
-support all fixity algorithms given in the table below, and MAY support
-additional algorithms from the extensions. Optional fixity algorithms
-that are not supported by a client <span id="E028">MUST</span> be
-ignored by that client.
+additional algorithms given in the
+\[[Digest-Algorithms-Extension](#ref-digest-algorithms-extension)\].
+OCFL clients <span id="E027">MUST</span> support all fixity algorithms
+given in the table below, and MAY support additional algorithms from the
+extensions. Optional fixity algorithms that are not supported by a
+client <span id="E028">MUST</span> be ignored by that client.
 
 | Digest Algorithm Name | Note |
 | --- | --- |
@@ -537,10 +538,10 @@ An OCFL Object Inventory <span id="E043">MUST</span> include a block for
 storing versions. This block <span id="E044">MUST</span> have the key of
 `versions` within the inventory, and it <span id="E045">MUST</span> be a
 JSON object. The keys of this object <span id="E046">MUST</span>
-correspond to the names of the [version directories](#version-
-directories) used. Each value <span id="E047">MUST</span> be another
-JSON object that characterizes the version, as described in the [3.5.3.1
-Version](#version) section.
+correspond to the names of the [version
+directories](#version-directories) used. Each value <span
+id="E047">MUST</span> be another JSON object that characterizes the
+version, as described in the [3.5.3.1 Version](#version) section.
 
 ##### 3.5.3.1 Version
 {: #version}
@@ -587,8 +588,8 @@ uses content-addressing to map logical paths to their bitstreams, as
 expressed in the manifest section of the inventory. Notably, the version
 state provides de-duplication of content within the OCFL Object by
 mapping multiple logical paths with the same content to the same digest
-in the manifest. See \[[OCFL-Implementation-Notes](#ref-ocfl-
-implementation-notes)\].
+in the manifest. See
+\[[OCFL-Implementation-Notes](#ref-ocfl-implementation-notes)\].
 
 > An example `state` block is shown below:
 
@@ -766,18 +767,18 @@ required.
 The base directory of an OCFL Object MAY contain a directory named
 `extensions` for the purposes of extending the functionality of an OCFL
 Object. The `extensions` directory <span id="E067">MUST NOT</span>
-contain any files, and no sub-directories other than extension sub-
-directories. Extension sub-directories <span id="W013">SHOULD</span> be
-named according to a [registered extension name](#registered extension
-name) in the [OCFL Extensions
+contain any files, and no sub-directories other than extension
+sub-directories. Extension sub-directories <span id="W013">SHOULD</span>
+be named according to a [registered extension name](#registered
+extension name) in the [OCFL Extensions
 repository](https://ocfl.github.io/extensions/).
 
 > Non-normative note: Extension sub-directories should use the same name
 as a registered extension in order to both avoid the possiblity of an
 extension sub-directory colliding with the name of another registered
 extension as well as to facilitate the recognition of extensions by OCFL
-clients. See also [Documenting Local Extensions](#documenting-local-
-extensions).
+clients. See also [Documenting Local
+Extensions](#documenting-local-extensions).
 
 ## 4. OCFL Storage Root
 {: #storage-root}
@@ -1524,8 +1525,8 @@ Namaste Tags. J. Kunze.9 November 2009. URL:
 <https://confluence.ucop.edu/download/attachments/14254149/NamasteSpec.pdf>
 
 <span id="ref-rfc1321"/>**\[RFC1321]** The MD5 Message-Digest Algorithm.
-R. Rivest. IETF. April 1992. Informational. URL: <https://www.rfc-
-editor.org/rfc/rfc1321>
+R. Rivest. IETF. April 1992. Informational. URL:
+<https://www.rfc-editor.org/rfc/rfc1321>
 
 <span id="ref-rfc3339"/>**\[RFC3339]** Date and Time on the Internet:
 Timestamps. G. Klyne; C. Newman. IETF. July 2002. Proposed Standard.
@@ -1533,8 +1534,8 @@ URL: <https://www.rfc-editor.org/rfc/rfc3339>
 
 <span id="ref-rfc3986"/>**\[RFC3986]** Uniform Resource Identifier
 (URI): Generic Syntax. T. Berners-Lee; R. Fielding; L. Masinter. IETF.
-January 2005. Internet Standard. URL: <https://www.rfc-
-editor.org/rfc/rfc3986>
+January 2005. Internet Standard. URL:
+<https://www.rfc-editor.org/rfc/rfc3986>
 
 <span id="ref-rfc4648"/>**\[RFC4648]** The Base16, Base32, and Base64
 Data Encodings. S. Josefsson. IETF. October 2006. Proposed Standard.
@@ -1542,8 +1543,8 @@ URL: <https://www.rfc-editor.org/rfc/rfc4648>
 
 <span id="ref-rfc7693"/>**\[RFC7693]** The BLAKE2 Cryptographic Hash and
 Message Authentication Code (MAC). M-J. Saarinen, Ed.; J-P. Aumasson.
-IETF. November 2015. Informational. URL: <https://www.rfc-
-editor.org/rfc/rfc7693>
+IETF. November 2015. Informational. URL:
+<https://www.rfc-editor.org/rfc/rfc7693>
 
 <span id="ref-rfc8259"/>**\[RFC8259]** The JavaScript Object Notation
 (JSON) Data Interchange Format. T. Bray, Ed.. IETF. December 2017\.
@@ -1556,15 +1557,15 @@ Internet Standard. URL: <https://www.rfc-editor.org/rfc/rfc8259>
 (V1.0). J. Kunze; J. Littman; E. Madden; J. Scancella; C. Adams. 17
 September 2018. URL: <https://datatracker.ietf.org/doc/html/rfc8493>
 
-<span id="ref-digest-algorithms-extension"/>**\[Digest-Algorithms-
-Extension]** OCFL Community Extension 0001: Digest Algorithms. OCFL
-Editors.URL: <https://ocfl.github.io/extensions/0001-digest-
-algorithms.html>
+<span
+id="ref-digest-algorithms-extension"/>**\[Digest-Algorithms-Extension]**
+OCFL Community Extension 0001: Digest Algorithms. OCFL Editors.URL:
+<https://ocfl.github.io/extensions/0001-digest-algorithms.html>
 
 <span id="ref-json-schema"/>**\[JSON-Schema]** JSON Schema Validation: A
 Vocabulary for Structural Validation of JSON. A. Wright; H Andrews.20
-September 2018. URL: <https://json-schema.org/latest/json-schema-
-validation.html>
+September 2018. URL:
+<https://json-schema.org/latest/json-schema-validation.html>
 
 <span id="ref-moab"/>**\[Moab]** The Moab Design for Digital Object
 Versioning. Richard Anderson.15 July 2013. URL:
@@ -1574,8 +1575,9 @@ Versioning. Richard Anderson.15 July 2013. URL:
 Information System (OAIS), Issue 2. June 2012. URL:
 <https://public.ccsds.org/pubs/650x0m2.pdf>
 
-<span id="ref-ocfl-implementation-notes"/>**\[OCFL-Implementation-
-Notes]** OCFL Implementation Notes. URL:
+<span
+id="ref-ocfl-implementation-notes"/>**\[OCFL-Implementation-Notes]**
+OCFL Implementation Notes. URL:
 <https://ocfl.io/draft/implementation-notes>
 
 <span id="ref-pairtree"/>**\[PairTree]** Pairtrees for Object Storage.

@@ -77,7 +77,7 @@ class Markdown_Writer(object):
     def line(self, *args):
         """Write a line."""
         text = self.munge_and_link(*args)
-        self.ofh.write(textwrap.fill(text.strip(), width=text_width, break_long_words=False) + "\n")
+        self.ofh.write(textwrap.fill(text.strip(), width=text_width, break_long_words=False, break_on_hyphens=False) + "\n")
 
     def long_line(self, *args):
         """Write a line without wrapping."""

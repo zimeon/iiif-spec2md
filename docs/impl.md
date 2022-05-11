@@ -38,9 +38,9 @@ licensed under [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/).
 ## Introduction
 {: #abstract}
 
-This document provides guidance on implementation of the \[[OCFL-
-Specification](#ref-ocfl-specification)\] for how clients should behave
-when operating on OCFL Objects.
+This document provides guidance on implementation of the
+\[[OCFL-Specification](#ref-ocfl-specification)\] for how clients should
+behave when operating on OCFL Objects.
 
 ## Status of This Document
 {: #sotd}
@@ -66,11 +66,11 @@ include all the descriptive, administrative, structural, representation,
 and preservation metadata relevant to the object.
 
 Additionally, as an aid to those who may need to recover OCFL objects in
-the future, it is recommended that a copy of the \[[OCFL-
-Specification](#ref-ocfl-specification)\] is stored in the top level of
-the OCFL storage root. The OCFL ignores files other than the conformance
-declaration at the top level so it is a good location to store
-documentation that may be useful for recovery.
+the future, it is recommended that a copy of the
+\[[OCFL-Specification](#ref-ocfl-specification)\] is stored in the top
+level of the OCFL storage root. The OCFL ignores files other than the
+conformance declaration at the top level so it is a good location to
+store documentation that may be useful for recovery.
 
 A more complete approach would be to create a specific OCFL object that
 contains this documentation and to have a pointer to its location in the
@@ -192,8 +192,8 @@ insert a zero length file named `.keep` into the directory which will
 ensure directories are preserved as part of the file's path.
 
 Note that `.keep` files are not considered special by the OCFL in any
-way and are treated exactly the same way as other files. As such, a non-
-zero length `.keep` file is not considered invalid.
+way and are treated exactly the same way as other files. As such, a
+non-zero length `.keep` file is not considered invalid.
 
 #### 2.1.5 Objects with Many Small Files
 {: #objects-with-many-small-files}
@@ -339,8 +339,8 @@ approaches can be used effectively. A simple example would be
 sequentially assigned identifiers, which would not distribute objects
 within the filesystem evenly. Hash functions may be used to provide a
 unidirectional mapping between URI/PID and filesystem path, as required
-by the OCFL. Encryption algorithms may be used to provide a bi-
-directional mapping which may be a useful aid to human readability.
+by the OCFL. Encryption algorithms may be used to provide a
+bi-directional mapping which may be a useful aid to human readability.
 Relevant details should be referenced in `ocfl_layout.json` in the
 Storage Root.
 
