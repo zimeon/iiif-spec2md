@@ -1508,7 +1508,7 @@ content. The OCFL Object itself remains valid.
             └── file.txt
 ```
 
-## References
+## 6. References
 {: #references}
 
 ### Normative

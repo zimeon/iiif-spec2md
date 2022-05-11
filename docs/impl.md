@@ -830,7 +830,7 @@ directory (which is the newly created one).
 repeat 5-9 above after validating all object checksums - considering
 some sort of failure has just occurred.
 
-## References
+## 4. References
 {: #references}
 
 ### Informative

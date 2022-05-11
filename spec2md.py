@@ -166,8 +166,8 @@ class Converter(object):
         if tail not in (None, ""):
             raise Bwaa("Unexpected tail text ", tail)
 
-    def process_section(self, element, level=1):
-        """Process one <section> block."""
+    def next_section_number(self, level):
+        """Return next section number."""
         section_number = ''
         if self.passed_sotd:
             # Now numbering sections
@@ -178,11 +178,17 @@ class Converter(object):
                 # Next section at same level
                 self.section_number[level - 2] += 1
             else:
-                # Up a level
-                self.section_number.pop()
+                # Up some levels
+                while len(self.section_number) >= level:
+                    self.section_number.pop()
                 self.section_number[level - 2] += 1
             section_number = '.'.join(str(n) for n in self.section_number)
             section_number += '. ' if level == 2 else ' '
+        return section_number
+
+    def process_section(self, element, level=1):
+        """Process one <section> block."""
+        section_number = self.next_section_number(level)
         print("> level %d, section %s, attribs %s" % (level, section_number, element.attrib))
         if 'id' not in element.attrib:
             pass
@@ -295,8 +301,10 @@ class Converter(object):
                         raise Bwaa("Unexpected tag")
                     self.process_section(child, 2)
                 # Finally, add references
-                self.section['references'] = "References"
-                self.writer.line("## " + "References")
+                section_number = self.next_section_number(2)
+                heading = section_number + " References"
+                self.section['references'] = heading
+                self.writer.line("## " + heading)
                 self.writer.para("{: #references}")
                 self.writer.write_references()
 
