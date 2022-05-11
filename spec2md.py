@@ -29,10 +29,13 @@ class Markdown_Writer(object):
         self.ofh = ofh
         self.refs = refs
         self.refs_used = {}
+        self.refs_normative = set()
 
     def ref_link(self, matchobj):
         """Make reference markdown link from label."""
         label = matchobj.group(2)
+        if matchobj.group(1) == "!":
+            self.refs_normative.add(label)
         if label not in self.refs:
             raise Bwaa("Reference with label " + label + " not in references file")
         anchor = 'ref-' + re.sub(r'''[\s_]+''', '-', label.lower())
@@ -41,9 +44,25 @@ class Markdown_Writer(object):
 
     def write_references(self):
         """Write referencese section base on refs_used."""
+        normative = []
+        informative = []
         for label in sorted(self.refs_used.keys()):
             anchor = self.refs_used[label]
-            self.para("\[%s]{: #%s} %s" % (label, anchor, self.refs[label]))
+            md = '<span id="%s"/>**\[%s]** %s' % (anchor, label, self.refs[label])
+            if label in self.refs_normative:
+                normative.append(md)
+            else:
+                informative.append(md)
+        if normative:
+            self.line("### Normative")
+            self.para("{: #normative-references}")
+            for md in normative:
+                self.para(md)
+        if informative:
+            self.line("### Informative")
+            self.para("{: #informative-references}")
+            for md in informative:
+                self.para(md)
 
     def munge_and_link(self, *args):
         """Sort out spaces and also link refs."""

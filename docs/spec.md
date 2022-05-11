@@ -1511,72 +1511,82 @@ content. The OCFL Object itself remains valid.
 ## References
 {: #references}
 
-\[BagIt]{: #ref-bagit} The BagIt File Packaging Format (V1.0). J. Kunze;
-J. Littman; E. Madden; J. Scancella; C. Adams.17 September 2018. URL:
-<https://datatracker.ietf.org/doc/html/rfc8493>
+### Normative
+{: #normative-references}
 
-\[Digest-Algorithms-Extension]{: #ref-digest-algorithms-extension} OCFL
-Community Extension 0001: Digest Algorithms. OCFL Editors.URL:
-<https://ocfl.github.io/extensions/0001-digest-algorithms.html>
-
-\[FIPS-180-4]{: #ref-fips-180-4} FIPS PUB 180-4 Secure Hash Standard.
-U.S. Department of Commerce/National Institute of Standards and
-Technology. URL:
+<span id="ref-fips-180-4"/>**\[FIPS-180-4]** FIPS PUB 180-4 Secure Hash
+Standard. U.S. Department of Commerce/National Institute of Standards
+and Technology. URL:
 <https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.180-4.pdf>
 
-\[JSON-Schema]{: #ref-json-schema} JSON Schema Validation: A Vocabulary
-for Structural Validation of JSON. A. Wright; H Andrews.20 September
-2018. URL: <https://json-schema.org/latest/json-schema-validation.html>
-
-\[Moab]{: #ref-moab} The Moab Design for Digital Object Versioning.
-Richard Anderson.15 July 2013. URL:
-<https://journal.code4lib.org/articles/8482>
-
-\[NAMASTE]{: #ref-namaste} Directory Description with Namaste Tags. J.
-Kunze.9 November 2009. URL:
+<span id="ref-namaste"/>**\[NAMASTE]** Directory Description with
+Namaste Tags. J. Kunze.9 November 2009. URL:
 <https://confluence.ucop.edu/download/attachments/14254149/NamasteSpec.pdf>
 
-\[OAIS]{: #ref-oais} Reference Model for an Open Archival Information
-System (OAIS), Issue 2. June 2012. URL:
-<https://public.ccsds.org/pubs/650x0m2.pdf>
-
-\[OCFL-Implementation-Notes]{: #ref-ocfl-implementation-notes} OCFL
-Implementation Notes. URL: <https://ocfl.io/draft/implementation-notes>
-
-\[PairTree]{: #ref-pairtree} Pairtrees for Object Storage. J. Kunze; M.
-Haye; E. Hetzner; M. Reyes; C. Snavely.12 August 2008. URL:
-<https://confluence.ucop.edu/display/Curation/PairTree>
-
-\[RFC1321]{: #ref-rfc1321} The MD5 Message-Digest Algorithm. R. Rivest.
-IETF. April 1992. Informational. URL: <https://www.rfc-
+<span id="ref-rfc1321"/>**\[RFC1321]** The MD5 Message-Digest Algorithm.
+R. Rivest. IETF. April 1992. Informational. URL: <https://www.rfc-
 editor.org/rfc/rfc1321>
 
-\[RFC3339]{: #ref-rfc3339} Date and Time on the Internet: Timestamps. G.
-Klyne; C. Newman. IETF. July 2002. Proposed Standard. URL:
-<https://www.rfc-editor.org/rfc/rfc3339>
+<span id="ref-rfc3339"/>**\[RFC3339]** Date and Time on the Internet:
+Timestamps. G. Klyne; C. Newman. IETF. July 2002. Proposed Standard.
+URL: <https://www.rfc-editor.org/rfc/rfc3339>
 
-\[RFC3986]{: #ref-rfc3986} Uniform Resource Identifier (URI): Generic
-Syntax. T. Berners-Lee; R. Fielding; L. Masinter. IETF. January 2005.
-Internet Standard. URL: <https://www.rfc-editor.org/rfc/rfc3986>
+<span id="ref-rfc3986"/>**\[RFC3986]** Uniform Resource Identifier
+(URI): Generic Syntax. T. Berners-Lee; R. Fielding; L. Masinter. IETF.
+January 2005. Internet Standard. URL: <https://www.rfc-
+editor.org/rfc/rfc3986>
 
-\[RFC4648]{: #ref-rfc4648} The Base16, Base32, and Base64 Data
-Encodings. S. Josefsson. IETF. October 2006. Proposed Standard. URL:
-<https://www.rfc-editor.org/rfc/rfc4648>
+<span id="ref-rfc4648"/>**\[RFC4648]** The Base16, Base32, and Base64
+Data Encodings. S. Josefsson. IETF. October 2006. Proposed Standard.
+URL: <https://www.rfc-editor.org/rfc/rfc4648>
 
-\[RFC6068]{: #ref-rfc6068} The 'mailto' URI Scheme. M. Duerst; L.
-Masinter; J. Zawinski. IETF. October 2010. Proposed Standard. URL:
-<https://www.rfc-editor.org/rfc/rfc6068>
-
-\[RFC7693]{: #ref-rfc7693} The BLAKE2 Cryptographic Hash and Message
-Authentication Code (MAC). M-J. Saarinen, Ed.; J-P. Aumasson. IETF.
-November 2015. Informational. URL: <https://www.rfc-
+<span id="ref-rfc7693"/>**\[RFC7693]** The BLAKE2 Cryptographic Hash and
+Message Authentication Code (MAC). M-J. Saarinen, Ed.; J-P. Aumasson.
+IETF. November 2015. Informational. URL: <https://www.rfc-
 editor.org/rfc/rfc7693>
 
-\[RFC8141]{: #ref-rfc8141} Uniform Resource Names (URNs). P. Saint-
-Andre; J. Klensin. IETF. April 2017. Proposed Standard. URL:
-<https://www.rfc-editor.org/rfc/rfc8141>
+<span id="ref-rfc8259"/>**\[RFC8259]** The JavaScript Object Notation
+(JSON) Data Interchange Format. T. Bray, Ed.. IETF. December 2017\.
+Internet Standard. URL: <https://www.rfc-editor.org/rfc/rfc8259>
 
-\[RFC8259]{: #ref-rfc8259} The JavaScript Object Notation (JSON) Data
-Interchange Format. T. Bray, Ed.. IETF. December 2017. Internet
-Standard. URL: <https://www.rfc-editor.org/rfc/rfc8259>
+### Informative
+{: #informative-references}
+
+<span id="ref-bagit"/>**\[BagIt]** The BagIt File Packaging Format
+(V1.0). J. Kunze; J. Littman; E. Madden; J. Scancella; C. Adams. 17
+September 2018. URL: <https://datatracker.ietf.org/doc/html/rfc8493>
+
+<span id="ref-digest-algorithms-extension"/>**\[Digest-Algorithms-
+Extension]** OCFL Community Extension 0001: Digest Algorithms. OCFL
+Editors.URL: <https://ocfl.github.io/extensions/0001-digest-
+algorithms.html>
+
+<span id="ref-json-schema"/>**\[JSON-Schema]** JSON Schema Validation: A
+Vocabulary for Structural Validation of JSON. A. Wright; H Andrews.20
+September 2018. URL: <https://json-schema.org/latest/json-schema-
+validation.html>
+
+<span id="ref-moab"/>**\[Moab]** The Moab Design for Digital Object
+Versioning. Richard Anderson.15 July 2013. URL:
+<https://journal.code4lib.org/articles/8482>
+
+<span id="ref-oais"/>**\[OAIS]** Reference Model for an Open Archival
+Information System (OAIS), Issue 2. June 2012. URL:
+<https://public.ccsds.org/pubs/650x0m2.pdf>
+
+<span id="ref-ocfl-implementation-notes"/>**\[OCFL-Implementation-
+Notes]** OCFL Implementation Notes. URL:
+<https://ocfl.io/draft/implementation-notes>
+
+<span id="ref-pairtree"/>**\[PairTree]** Pairtrees for Object Storage.
+J. Kunze; M. Haye; E. Hetzner; M. Reyes; C. Snavely. 12 August 2008\.
+URL: <https://confluence.ucop.edu/display/Curation/PairTree>
+
+<span id="ref-rfc6068"/>**\[RFC6068]** The 'mailto' URI Scheme. M.
+Duerst; L. Masinter; J. Zawinski. IETF. October 2010. Proposed Standard.
+URL: <https://www.rfc-editor.org/rfc/rfc6068>
+
+<span id="ref-rfc8141"/>**\[RFC8141]** Uniform Resource Names (URNs). P.
+Saint-Andre; J. Klensin. IETF. April 2017. Proposed Standard. URL:
+<https://www.rfc-editor.org/rfc/rfc8141>
 

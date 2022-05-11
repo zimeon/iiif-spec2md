@@ -798,18 +798,21 @@ some sort of failure has just occurred.
 ## References
 {: #references}
 
-\[NAMASTE]{: #ref-namaste} Directory Description with Namaste Tags. J.
-Kunze.9 November 2009. URL:
+### Informative
+{: #informative-references}
+
+<span id="ref-namaste"/>**\[NAMASTE]** Directory Description with
+Namaste Tags. J. Kunze.9 November 2009. URL:
 <https://confluence.ucop.edu/download/attachments/14254149/NamasteSpec.pdf>
 
-\[OAIS]{: #ref-oais} Reference Model for an Open Archival Information
-System (OAIS), Issue 2. June 2012. URL:
+<span id="ref-oais"/>**\[OAIS]** Reference Model for an Open Archival
+Information System (OAIS), Issue 2. June 2012. URL:
 <https://public.ccsds.org/pubs/650x0m2.pdf>
 
-\[OCFL-Specification]{: #ref-ocfl-specification} OCFL Specification.
-URL: <https://ocfl.io/draft/spec>
+<span id="ref-ocfl-specification"/>**\[OCFL-Specification]** OCFL
+Specification. URL: <https://ocfl.io/draft/spec>
 
-\[PairTree]{: #ref-pairtree} Pairtrees for Object Storage. J. Kunze; M.
-Haye; E. Hetzner; M. Reyes; C. Snavely.12 August 2008. URL:
-<https://confluence.ucop.edu/display/Curation/PairTree>
+<span id="ref-pairtree"/>**\[PairTree]** Pairtrees for Object Storage.
+J. Kunze; M. Haye; E. Hetzner; M. Reyes; C. Snavely. 12 August 2008\.
+URL: <https://confluence.ucop.edu/display/Curation/PairTree>
 
