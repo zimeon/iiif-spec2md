@@ -201,9 +201,13 @@ class Converter(object):
             pass
         elif element.attrib['id'] == 'sotd':
             self.writer.line("## Status of This Document")
-            self.writer.para("{: #sotd}")
+            self.writer.para("{:.no_toc #sotd}")
             self.writer.para("This document is draft of a potential specification. It has no official standing of any kind and does not represent the support or consensus of any standards organisation.")
             self.passed_sotd = True
+            self.writer.line("## Table of Contents")
+            self.writer.para("{:.no_toc}")
+            self.writer.line("* TOC placeholder (required by kramdown)")
+            self.writer.para("{:toc}")
             return
         elif element.attrib['id'] == 'conformance':
             section_heading = section_number + "Conformance"
@@ -226,7 +230,8 @@ class Converter(object):
                         raise Bwaa("duplicate section anchor " + anchor)
                     self.section[anchor] = section_heading
                 self.writer.line("#" * level, " ", section_heading)
-                self.writer.para("{: #%s}" % (anchor))
+                no_toc = '' if self.passed_sotd else '.no_toc '
+                self.writer.para("{:%s #%s}" % (no_toc, anchor))
                 if child.tail.strip() not in (None, ""):
                     raise Bwaa("Unexpected tail text ", child.tail)
             elif child.tag == 'p':
