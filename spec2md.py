@@ -31,10 +31,13 @@ class Markdown_Writer(object):
         self.refs_used = {}
         self.refs_normative = set()
 
-    def ref_link(self, matchobj):
+    def ref_link_match(self, matchobj):
+        """Make reference markdown link from regex match."""
+        return self.ref_link(label=matchobj.group(2), normative=(matchobj.group(1) == "!"))
+
+    def ref_link(self, label, normative=False):
         """Make reference markdown link from label."""
-        label = matchobj.group(2)
-        if matchobj.group(1) == "!":
+        if normative:
             self.refs_normative.add(label)
         if label not in self.refs:
             raise Bwaa("Reference with label " + label + " not in references file")
@@ -71,7 +74,7 @@ class Markdown_Writer(object):
     def munge_and_link(self, *args):
         """Sort out spaces and also link refs."""
         text = re.sub(r'''\s+''', ' ', " ".join(args))
-        text = re.sub(r'''\[\[(\!)?(\S+)\]\]''', self.ref_link, text)
+        text = re.sub(r'''\[\[(\!)?(\S+)\]\]''', self.ref_link_match, text)
         return text
 
     def line(self, *args):
@@ -208,7 +211,7 @@ class Converter(object):
             self.writer.line("## " + section_heading)
             self.writer.para("{: #conformance}")
             self.writer.para("As well as sections marked as non-normative, all authoring guidelines, diagrams, examples, and notes in this specification are non-normative. Everything else in this specification is normative.")
-            self.writer.para("The key words may, must, must not, should, and should not are to be interpreted as described in [RFC2119](#ref-rfc2119).")
+            self.writer.para("The key words may, must, must not, should, and should not are to be interpreted as described in " + self.writer.ref_link("RFC2119", True) + ".")
             return
         anchor = self.get_anchor(element)
         for child in element:
