@@ -1,6 +1,12 @@
+theme: ocfl-jekyll-theme
+markdown: kramdown
 source: docs
-theme: minima
 
 plugins:
-  - jekyll-data
-  - jekyll-liquify
+  - jekyll-redirect-from
+
+kramdown:
+  input: GFM
+  parse_block_html: true
+  toc_levels: 2..4
+  

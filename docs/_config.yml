@@ -1,1 +1,12 @@
-theme: jekyll-theme-slate
+markdown: kramdown
+source: .
+
+plugins:
+  - jekyll-sitemap
+  - jekyll-redirect-from
+
+kramdown:
+  input: GFM
+  parse_block_html: true
+  toc_levels: 2..4
+  
