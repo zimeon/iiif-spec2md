@@ -8,3 +8,7 @@ Take OCFL specification and implementation notes documents and transform from XM
 
 * [Spec](https://zimeon.github.io/ocfl-spec2md/spec) from [current draft](https://ocfl.io/draft/spec/)
 * [Implementation Notes](https://zimeon.github.io/ocfl-spec2md/impl) from [current draft](https://ocfl.io/draft/implementation-notes/)
+
+## Misc Notes
+
+The OCFL site, <https://ocfl.io/>, is a github pages site. The settings are from branch `main`, based at the repository root, no theme is set in the repository settings.
