@@ -9,9 +9,9 @@ import textwrap
 import xml.etree.ElementTree as ET
 
 spec_src = "../ocfl-spec/draft/spec/index.html"
-spec_dst = "docs/spec.md"
+spec_dst = "../ocfl-spec-md/draft/spec/index.md"
 impl_src = "../ocfl-spec/draft/implementation-notes/index.html"
-impl_dst = "docs/impl.md"
+impl_dst = "../ocfl-spec-md/draft/implementation-notes/index.md"
 text_width = 72
 
 
@@ -208,7 +208,7 @@ class Converter(object):
             self.writer.line("## " + section_heading)
             self.writer.para("{: #conformance}")
             self.writer.para("As well as sections marked as non-normative, all authoring guidelines, diagrams, examples, and notes in this specification are non-normative. Everything else in this specification is normative.")
-            self.writer.para("The key words may, must, must not, should, and should not are to be interpreted as described in [RFC2119].")
+            self.writer.para("The key words may, must, must not, should, and should not are to be interpreted as described in [RFC2119](#ref-rfc2119).")
             return
         anchor = self.get_anchor(element)
         for child in element:
