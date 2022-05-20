@@ -200,9 +200,7 @@ class Converter(object):
         if 'id' not in element.attrib:
             pass
         elif element.attrib['id'] == 'sotd':
-            self.writer.line("## Status of This Document")
-            self.writer.para("{:.no_toc #sotd}")
-            self.writer.para("This document is draft of a potential specification. It has no official standing of any kind and does not represent the support or consensus of any standards organisation.")
+            # Agreed we don't want SOTD in new doc (https://github.com/zimeon/ocfl-spec2md/issues/8)
             self.passed_sotd = True
             self.writer.line("## Table of Contents")
             self.writer.para("{:.no_toc}")
