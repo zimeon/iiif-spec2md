@@ -111,6 +111,8 @@ class Converter(object):
         """Initialize new conversion of a file."""
         self.run = 0  # will be incremented to 1 by init_first_run
         self.section = OrderedDict()  # anchor -> heading including number
+        self.section_anchor = {}      # lowercased heading excluding number -> anchor
+        self.dfn_anchor = {}          # lowercases definition -> anchor
 
     def init_new_run(self):
         """Initilize for new run within a conversion."""
@@ -122,6 +124,25 @@ class Converter(object):
         """Look for id tags in element."""
         anchor = element.attrib.get('id', None)
         return anchor
+
+    def get_section_anchor(self, heading):
+        """Make section anchor from heading."""
+        return re.sub(r'''\s+''', '-', heading.lower())
+
+    def section_heading(self, heading, section_number='', anchor=None, add_to_toc=True, level=2):
+        """Create section heading and record details."""
+        section_heading = section_number + heading
+        if anchor is None:
+            anchor = self.get_section_anchor(heading)
+        if self.run == 1:
+            if anchor in self.section:
+                raise Bwaa("duplicate section anchor " + anchor)
+            self.section[anchor] = section_heading
+            print("Setting '%s' -> %s" % (heading, anchor))
+            self.section_anchor[heading.lower()] = anchor
+        self.writer.line("#" * level, " ", section_heading)
+        no_toc = '' if add_to_toc else '.no_toc '
+        self.writer.para("{:%s #%s}" % (no_toc, anchor))
 
     def process_para_inner(self, element, prefix=''):
         """Return string from paragraph like content."""
@@ -141,8 +162,11 @@ class Converter(object):
                         text = 'FIXME-IN-RUN-2'
                 if 'href' in child.attrib:
                     txt += "[" + text + "](" + child.attrib['href'] + ")"
-                else:
-                    txt += "[" + text + "](#" + text + ")"
+                else:  # a definition link
+                    anchor = text
+                    if self.run == 2:
+                        anchor = self.dfn_anchor[re.sub(r'''\s+''', ' ',  text.lower())]
+                    txt += "[" + text + "](#" + anchor + ")"
             elif child.tag == 'code':
                 txt += "`" + text + "`"
             elif child.tag == 'span':
@@ -202,16 +226,12 @@ class Converter(object):
         elif element.attrib['id'] == 'sotd':
             # Agreed we don't want SOTD in new doc (https://github.com/zimeon/ocfl-spec2md/issues/8)
             self.passed_sotd = True
-            self.writer.line("## Table of Contents")
-            self.writer.para("{:.no_toc}")
+            self.section_heading(heading="Table of Contents", add_to_toc=False)
             self.writer.line("* TOC placeholder (required by kramdown)")
             self.writer.para("{:toc}")
             return
         elif element.attrib['id'] == 'conformance':
-            section_heading = section_number + "Conformance"
-            self.section['conformance'] = section_heading
-            self.writer.line("## " + section_heading)
-            self.writer.para("{: #conformance}")
+            self.section_heading(heading="Conformance", section_number=section_number)
             self.writer.para("As well as sections marked as non-normative, all authoring guidelines, diagrams, examples, and notes in this specification are non-normative. Everything else in this specification is normative.")
             self.writer.para("The key words may, must, must not, should, and should not are to be interpreted as described in " + self.writer.ref_link("RFC2119", True) + ".")
             return
@@ -220,16 +240,7 @@ class Converter(object):
             if child.tag == 'section':
                 self.process_section(child, (level + 1))
             elif child.tag in ('h1', 'h2', 'h3'):
-                section_heading = section_number + child.text
-                if anchor is None:
-                    anchor = re.sub(r'''\s+''', '-', child.text.lower())
-                if self.run == 1:
-                    if anchor in self.section:
-                        raise Bwaa("duplicate section anchor " + anchor)
-                    self.section[anchor] = section_heading
-                self.writer.line("#" * level, " ", section_heading)
-                no_toc = '' if self.passed_sotd else '.no_toc '
-                self.writer.para("{:%s #%s}" % (no_toc, anchor))
+                self.section_heading(heading=child.text, section_number=section_number, anchor=anchor, add_to_toc=self.passed_sotd, level=level)
                 if child.tail.strip() not in (None, ""):
                     raise Bwaa("Unexpected tail text ", child.tail)
             elif child.tag == 'p':
@@ -251,7 +262,9 @@ class Converter(object):
                         for dfn in item:
                             dt = dfn.text.strip()
                     elif item.tag == 'dd':
-                        self.process_para(item, prefix="  * **" + dt + ":** ")
+                        anchor = 'dfn-' + self.get_section_anchor(dt)
+                        self.dfn_anchor[dt.lower()] = anchor
+                        self.process_para(item, prefix='  * <a name="%s"/>**%s:** ' % (anchor, dt))
                     else:
                         Bwaa("Unexpected tag in dl: " * item.tag)
             elif child.tag == "table":
