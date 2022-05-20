@@ -12,7 +12,7 @@ spec_src = "../ocfl-spec/draft/spec/index.html"
 spec_dst = "../ocfl-spec-md/draft/spec/index.md"
 impl_src = "../ocfl-spec/draft/implementation-notes/index.html"
 impl_dst = "../ocfl-spec-md/draft/implementation-notes/index.md"
-text_width = 72
+text_width = 120
 
 
 class Bwaa(Exception):
