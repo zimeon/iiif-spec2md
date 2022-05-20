@@ -264,14 +264,19 @@ class Converter(object):
                     n += 1
             elif child.tag == 'dl':
                 dt = "MISSING"
+                code = False
                 for item in child:
                     if item.tag == 'dt':
                         for dfn in item:
                             dt = dfn.text.strip()
+                            code = (dfn.tag == 'code')
                     elif item.tag == 'dd':
                         anchor = 'dfn-' + self.get_section_anchor(dt)
                         self.dfn_anchor[dt.lower()] = anchor
-                        self.process_para(item, prefix='  * <a name="%s"/>**%s:** ' % (anchor, dt))
+                        if code:
+                            self.process_para(item, prefix='  * `%s`: ' % (dt))
+                        else:
+                            self.process_para(item, prefix='  * <a name="%s"/>**%s:** ' % (anchor, dt))
                     else:
                         Bwaa("Unexpected tag in dl: " * item.tag)
             elif child.tag == "table":
