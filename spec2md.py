@@ -238,12 +238,15 @@ class Converter(object):
             self.writer.para("As well as sections marked as non-normative, all authoring guidelines, diagrams, examples, and notes in this specification are non-normative. Everything else in this specification is normative.")
             self.writer.para('The key words <span class="rfc2119">MAY</span>, <span class="rfc2119">MUST</span>, <span class="rfc2119">MUST NOT</span>, <span class="rfc2119">SHOULD</span>, and <span class="rfc2119">SHOULD NOT</span> are to be interpreted as described in ' + self.writer.ref_link("RFC2119", True) + ".")
             return
+        informative = ('class' in element.attrib and element.attrib['class'] == 'informative')
         anchor = self.get_anchor(element)
         for child in element:
             if child.tag == 'section':
                 self.process_section(child, (level + 1))
             elif child.tag in ('h1', 'h2', 'h3'):
                 self.section_heading(heading=child.text, section_number=section_number, anchor=anchor, add_to_toc=self.passed_sotd, level=level)
+                if informative:
+                    self.writer.para("_This section is non-normative._")
                 if child.tail.strip() not in (None, ""):
                     raise Bwaa("Unexpected tail text ", child.tail)
             elif child.tag == 'p':
