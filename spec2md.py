@@ -43,7 +43,7 @@ class Markdown_Writer(object):
             raise Bwaa("Reference with label " + label + " not in references file")
         anchor = 'ref-' + re.sub(r'''[\s_]+''', '-', label.lower())
         self.refs_used[label] = anchor
-        return "\[[" + label + "](#" + anchor + ")\]"
+        return "\\[[" + label + "](#" + anchor + ")\\]"
 
     def write_references(self, section_number):
         """Write references section base on refs_used."""
@@ -51,7 +51,7 @@ class Markdown_Writer(object):
         informative = []
         for label in sorted(self.refs_used.keys()):
             anchor = self.refs_used[label]
-            md = '<span id="%s"/>**\[%s]** %s' % (anchor, label, self.refs[label])
+            md = '<span id="%s"/>**\\[%s]** %s' % (anchor, label, self.refs[label])
             if label in self.refs_normative:
                 normative.append(md)
             else:
@@ -70,6 +70,10 @@ class Markdown_Writer(object):
             self.para("{: #informative-references}")
             for md in informative:
                 self.para(md)
+
+    def rfc_match(self, matchobj):
+        """Make RFC worf in markdown from regex match."""
+        return '_' + matchobj.group(1).upper() + '_'
 
     def munge_and_link(self, *args):
         """Sort out spaces and also link refs."""
@@ -138,7 +142,6 @@ class Converter(object):
             if anchor in self.section:
                 raise Bwaa("duplicate section anchor " + anchor)
             self.section[anchor] = section_heading
-            print("Setting '%s' -> %s" % (heading, anchor))
             self.section_anchor[heading.lower()] = anchor
         self.writer.line("#" * level, " ", section_heading)
         no_toc = '' if add_to_toc else '.no_toc '
@@ -165,14 +168,14 @@ class Converter(object):
                 else:  # a definition link
                     anchor = text
                     if self.run == 2:
-                        anchor = self.dfn_anchor[re.sub(r'''\s+''', ' ',  text.lower())]
+                        anchor = self.dfn_anchor[re.sub(r'''\s+''', ' ', text.lower())]
                     txt += "[" + text + "](#" + anchor + ")"
             elif child.tag == 'code':
                 txt += "`" + text + "`"
             elif child.tag == 'span':
                 # We only use <span. for id= anchors for errors and warnings,
                 # we just replicate this in output
-                txt += '<span id="' + child.attrib['id'] + '">' + text + "</span>"
+                txt += ' <span id="' + child.attrib['id'] + '" class="rfc2119">' + text + "</span>"
             elif child.tag == 'i':
                 txt += "_" + text + "_"
             elif child.tag == 'pre':
@@ -233,7 +236,7 @@ class Converter(object):
         elif element.attrib['id'] == 'conformance':
             self.section_heading(heading="Conformance", section_number=section_number)
             self.writer.para("As well as sections marked as non-normative, all authoring guidelines, diagrams, examples, and notes in this specification are non-normative. Everything else in this specification is normative.")
-            self.writer.para("The key words may, must, must not, should, and should not are to be interpreted as described in " + self.writer.ref_link("RFC2119", True) + ".")
+            self.writer.para('The key words <span class="rfc2119">MAY</span>, <span class="rfc2119">MUST</span>, <span class="rfc2119">MUST NOT</span>, <span class="rfc2119">SHOULD</span>, and <span class="rfc2119">SHOULD NOT</span> are to be interpreted as described in ' + self.writer.ref_link("RFC2119", True) + ".")
             return
         anchor = self.get_anchor(element)
         for child in element:
@@ -294,7 +297,7 @@ class Converter(object):
             else:
                 raise Bwaa("level%d unknown child: ", level, child.tag, child.attrib)
 
-    def convert(self, src, dst, preamble=None):
+    def convert(self, src, dst, preamble=None, process_rfc2119=True):
         """Convert src ReSpec HTML to dst in Markdown."""
         self.init_new_conversion()
         # Read XML
